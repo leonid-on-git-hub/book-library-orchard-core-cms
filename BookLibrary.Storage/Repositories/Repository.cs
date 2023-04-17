@@ -2,7 +2,7 @@
 using SqlKata.Execution;
 using System.Data.SqlClient;
 
-namespace BookLibrary.Repository.Repositories
+namespace BookLibrary.Storage.Repositories
 {
     public abstract class Repository
     {

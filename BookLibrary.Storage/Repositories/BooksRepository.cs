@@ -1,7 +1,7 @@
 ﻿using BookLibrary.Domain.Entities;
 using BookLibrary.Domain.Repositories;
 
-namespace BookLibrary.Repository.Repositories
+namespace BookLibrary.Storage.Repositories
 {
     public class BooksRepository : Repository, IBooksRepository
     {

@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Theme", "BookLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.MainModule", "BookLibrary.MainModule\BookLibrary.MainModule.csproj", "{11D77DD1-5393-4B9B-A60B-309A6FF0269C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Repository", "BookLibrary.Repository\BookLibrary.Repository.csproj", "{DBCB4D6B-0882-4E23-AECA-BCD936F4519D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Storage", "BookLibrary.Storage\BookLibrary.Storage.csproj", "{DBCB4D6B-0882-4E23-AECA-BCD936F4519D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Domain", "BookLibrary.Domain\BookLibrary.Domain.csproj", "{88DD8826-515C-460B-9CFE-4FC0C09CCED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Domain", "BookLibrary.Domain\BookLibrary.Domain.csproj", "{88DD8826-515C-460B-9CFE-4FC0C09CCED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿using BookLibrary.Domain.Repositories;
 using BookLibrary.Domain.ValueObjects;
 
-namespace BookLibrary.Repository.Repositories
+namespace BookLibrary.Storage.Repositories
 {
     public class BookTracksRepository : Repository, IBookTracksRepository
     {
