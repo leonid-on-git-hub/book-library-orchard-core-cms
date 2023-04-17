@@ -14,3 +14,5 @@ x64/
 
 # Visual Studio temp something
 .vs/
+
+node_modules/

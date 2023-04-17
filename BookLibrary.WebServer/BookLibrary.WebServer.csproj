@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -13,6 +13,10 @@
   <ItemGroup>
     <ProjectReference Include="..\BookLibrary.MainModule\BookLibrary.MainModule.csproj" />
     <ProjectReference Include="..\BookLibrary.Theme\BookLibrary.Theme.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Databases\" />
   </ItemGroup>
 
 </Project>
