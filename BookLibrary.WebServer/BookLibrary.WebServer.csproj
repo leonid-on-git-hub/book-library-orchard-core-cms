@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookLibrary.MainModule\BookLibrary.MainModule.csproj" />
+    <ProjectReference Include="..\BookLibrary.Main\BookLibrary.Main.csproj" />
     <ProjectReference Include="..\BookLibrary.Theme\BookLibrary.Theme.csproj" />
   </ItemGroup>
 

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookLibrary.MainModule.Controllers
+namespace BookLibrary.Main.Controllers
 {
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return View();
             }

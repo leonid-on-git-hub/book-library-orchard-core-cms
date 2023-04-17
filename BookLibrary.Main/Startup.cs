@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Modules;
 
-namespace BookLibrary.MainModule
+namespace BookLibrary.Main
 {
     public class Startup : StartupBase
     {
@@ -15,19 +15,19 @@ namespace BookLibrary.MainModule
         {
             routes.MapAreaControllerRoute(
                 name: "Home",
-                areaName: "BookLibrary.MainModule",
+                areaName: "BookLibrary.Main",
                 pattern: "",
                 defaults: new { controller = "Home", action = "Index" }
             );
             routes.MapAreaControllerRoute(
                 name: "About",
-                areaName: "BookLibrary.MainModule",
+                areaName: "BookLibrary.Main",
                 pattern: "/About",
                 defaults: new { controller = "Home", action = "About" }
             );
             routes.MapAreaControllerRoute(
                 name: "Contact",
-                areaName: "BookLibrary.MainModule",
+                areaName: "BookLibrary.Main",
                 pattern: "/Contact",
                 defaults: new { controller = "Home", action = "Contact" }
             );
