@@ -19,7 +19,7 @@ namespace BookLibrary.Storage.Repositories
             var bookRecord = BookRecord.FromDomain(book);
             await DataBase.Query(BooksTableName).InsertAsync(bookRecord);
             await BindBookAndAuthors(bookId, book.Authors);
-            var createdBook = Get(book.Id);
+            var createdBook = await Get(book.Id);
             return createdBook == null ? throw new InvalidOperationException("Book creation exception. Book not created.") : book;
         }
 
