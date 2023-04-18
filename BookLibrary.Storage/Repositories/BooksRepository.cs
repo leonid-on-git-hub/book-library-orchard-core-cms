@@ -4,6 +4,7 @@ using BookLibrary.Domain.Repositories;
 using BookLibrary.Storage.Dtos;
 using BookLibrary.Storage.Records;
 using SqlKata.Execution;
+using System.Data;
 
 namespace BookLibrary.Storage.Repositories
 {
@@ -17,8 +18,18 @@ namespace BookLibrary.Storage.Repositories
         {
             var bookId = Guid.NewGuid();
             var bookRecord = BookRecord.FromDomain(book);
-            await DataBase.Query(BooksTableName).InsertAsync(bookRecord);
-            await BindBookAndAuthors(bookId, book.Authors);
+            using var transaction = DataBase.Connection.BeginTransaction();
+            try
+            {
+                await DataBase.Query(BooksTableName).InsertAsync(bookRecord, transaction);
+                await BindBookAndAuthors(bookId, book.Authors, transaction);
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
             var createdBook = await Get(book.Id);
             return createdBook == null ? throw new InvalidOperationException("Book creation exception. Book not created.") : book;
         }
@@ -92,14 +103,24 @@ namespace BookLibrary.Storage.Repositories
         public async Task Update(Book book)
         {
             var bookRecord = BookRecord.FromDomain(book);
-            await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookRecord.Id).UpdateAsync(bookRecord);
-            await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).DeleteAsync();
-            await BindBookAndAuthors(book.Id, book.Authors);
+            using var transaction = DataBase.Connection.BeginTransaction();
+            try
+            {
+                await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookRecord.Id).UpdateAsync(bookRecord, transaction);
+                await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).DeleteAsync(transaction);
+                await BindBookAndAuthors(book.Id, book.Authors, transaction);
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         #region Private
 
-        private async Task BindBookAndAuthors(Guid bookId, IEnumerable<string> authors)
+        private async Task BindBookAndAuthors(Guid bookId, IEnumerable<string> authors, IDbTransaction? transaction = null)
         {
             foreach (var authorName in authors)
             {
@@ -114,10 +135,10 @@ namespace BookLibrary.Storage.Repositories
                 {
                     var authorId = Guid.NewGuid();
                     var newAuthor = new AuthorRecord { Id = authorId, Name = authorName };
-                    await DataBase.Query(AuthorsTableName).InsertAsync(newAuthor);
+                    await DataBase.Query(AuthorsTableName).InsertAsync(newAuthor, transaction);
                     bookAuthorRecord.AuthorId = authorId;
                 }
-                await DataBase.Query(BooksAuthorsTableName).InsertAsync(bookAuthorRecord);
+                await DataBase.Query(BooksAuthorsTableName).InsertAsync(bookAuthorRecord, transaction);
             }
         }
 
