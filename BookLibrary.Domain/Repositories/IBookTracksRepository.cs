@@ -6,7 +6,7 @@ namespace BookLibrary.Domain.Repositories
     {
         Task<IEnumerable<BookTrack>> GetAll(Guid bookId);
 
-        Task Create(BookTrack bookTrack);
+        Task<BookTrack> Create(BookTrack bookTrack);
 
         Task<bool> IsBookAvailableToUser(Guid bookId, string userLogin);
     }

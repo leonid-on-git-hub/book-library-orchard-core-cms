@@ -5,7 +5,7 @@ namespace BookLibrary.Storage.Repositories
 {
     public class BookTracksRepository : Repository, IBookTracksRepository
     {
-        public Task Create(BookTrack bookTrack)
+        public Task<BookTrack> Create(BookTrack bookTrack)
         {
             throw new NotImplementedException();
         }

@@ -1,0 +1,28 @@
+﻿using BookLibrary.Domain.Entities;
+
+namespace BookLibrary.Storage.Records
+{
+    internal class BookRecord
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DateTime Year { get; set; }
+        public bool Available { get; set; }
+
+        public BookRecord()
+        {
+            Name = string.Empty;
+        }
+
+        public static BookRecord FromDomain(Book book)
+        {
+            return new BookRecord
+            {
+                Id = book.Id,
+                Name = book.Name,
+                Year = book.Year,
+                Available = book.Available
+            };
+        }
+    }
+}

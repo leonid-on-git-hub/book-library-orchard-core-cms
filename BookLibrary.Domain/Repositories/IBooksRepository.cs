@@ -1,14 +1,15 @@
-﻿using BookLibrary.Domain.Entities;
+﻿using BookLibrary.Domain.Dtos;
+using BookLibrary.Domain.Entities;
 
 namespace BookLibrary.Domain.Repositories
 {
     public interface IBooksRepository
     {
-        Task<IEnumerable<Book>> GetAll(string serachString = "", uint from = 0, uint count = 10);
+        Task<IPagedCollection<Book>> GetAll(string serachBookName = "", string serachAuthor = "", uint from = 0, uint count = 10);
 
-        Task<Book> Get(Guid bookId);
+        Task<Book?> Get(Guid bookId);
 
-        Task Create(Book book);
+        Task<Book> Create(Book book);
 
         Task Update(Book book);
 
