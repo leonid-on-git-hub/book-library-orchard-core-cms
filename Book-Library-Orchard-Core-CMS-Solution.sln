@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Storage", "Book
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Domain", "BookLibrary.Domain\BookLibrary.Domain.csproj", "{88DD8826-515C-460B-9CFE-4FC0C09CCED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Main", "BookLibrary.Main\BookLibrary.Main.csproj", "{437AE5F7-7E06-482C-BFB6-B96649DF44A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Main", "BookLibrary.Main\BookLibrary.Main.csproj", "{437AE5F7-7E06-482C-BFB6-B96649DF44A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
