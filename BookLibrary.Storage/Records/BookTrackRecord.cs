@@ -4,14 +4,8 @@
     {
         public Guid Id { get; set; }
         public Guid BookId { get; set; }
-        public string Login { get; set; }
+        public string Login { get; set; } = string.Empty;
         public DateTime ActionDate { get; set; }
-        public string Action { get; set; }
-
-        public BookTrackRecord()
-        {
-            Login = string.Empty;
-            Action = string.Empty;
-        }
+        public string Action { get; set; } = string.Empty;
     }
 }

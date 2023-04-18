@@ -3,11 +3,6 @@
     internal class AuthorRecord
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-
-        public AuthorRecord()
-        {
-            Name = string.Empty;
-        }
+        public string Name { get; set; } = string.Empty;
     }
 }
