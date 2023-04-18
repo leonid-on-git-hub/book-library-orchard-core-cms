@@ -1,9 +1,4 @@
 ﻿using BookLibrary.Domain.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookLibrary.Storage.Dtos
 {
@@ -13,10 +8,10 @@ namespace BookLibrary.Storage.Dtos
 
         public long TotalCount { get; }
 
-        public PagedCollection(IEnumerable<ItemType> items, long totalCount) 
-        { 
-            Items = items; 
-            TotalCount = totalCount; 
+        public PagedCollection(IEnumerable<ItemType> items, long totalCount)
+        {
+            Items = items;
+            TotalCount = totalCount;
         }
     }
 }
