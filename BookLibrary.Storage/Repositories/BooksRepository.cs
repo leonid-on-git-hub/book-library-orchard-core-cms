@@ -16,13 +16,22 @@ namespace BookLibrary.Storage.Repositories
 
         public async Task<Book> Create(Book book)
         {
-            var bookId = Guid.NewGuid();
             var bookRecord = BookRecord.FromDomain(book);
+            if (bookRecord.Id == default)
+            {
+                bookRecord.Id = Guid.NewGuid();
+            }
+            var persistedBook = await Get(bookRecord.Id);
+            if (persistedBook != null)
+            {
+                throw new InvalidOperationException($"The book with Id: {bookRecord.Id} already exists.");
+            }
+
             using var transaction = DataBase.Connection.BeginTransaction();
             try
             {
                 await DataBase.Query(BooksTableName).InsertAsync(bookRecord, transaction);
-                await BindBookAndAuthors(bookId, book.Authors, transaction);
+                await BindBookAndAuthors(bookRecord.Id, book.Authors, transaction);
                 transaction.Commit();
             }
             catch (Exception)
@@ -30,7 +39,8 @@ namespace BookLibrary.Storage.Repositories
                 transaction.Rollback();
                 throw;
             }
-            var createdBook = await Get(book.Id);
+
+            var createdBook = await Get(bookRecord.Id);
             return createdBook == null ? throw new InvalidOperationException("Book creation exception. Book not created.") : book;
         }
 
@@ -103,19 +113,28 @@ namespace BookLibrary.Storage.Repositories
         public async Task Update(Book book)
         {
             var bookRecord = BookRecord.FromDomain(book);
-            using var transaction = DataBase.Connection.BeginTransaction();
-            try
+            var persistedBook = await Get(bookRecord.Id);
+            if (persistedBook != null)
             {
-                await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookRecord.Id).UpdateAsync(bookRecord, transaction);
-                await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).DeleteAsync(transaction);
-                await BindBookAndAuthors(book.Id, book.Authors, transaction);
-                transaction.Commit();
+                using var transaction = DataBase.Connection.BeginTransaction();
+                try
+                {
+                    await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookRecord.Id).UpdateAsync(bookRecord, transaction);
+                    await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).DeleteAsync(transaction);
+                    await BindBookAndAuthors(book.Id, book.Authors, transaction);
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
-            catch (Exception)
+            else
             {
-                transaction.Rollback();
-                throw;
+                await Create(book);
             }
+
         }
 
         #region Private
