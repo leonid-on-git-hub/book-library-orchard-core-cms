@@ -12,11 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookLibrary.Main\BookLibrary.Main.csproj" />
+    <ProjectReference Include="..\BookLibrary.SqlServerStorage\BookLibrary.SqlServerStorage.csproj" />
+    <ProjectReference Include="..\BookLibrary.Storage\BookLibrary.Storage.csproj" />
     <ProjectReference Include="..\BookLibrary.Theme\BookLibrary.Theme.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Databases\" />
   </ItemGroup>
 
 </Project>

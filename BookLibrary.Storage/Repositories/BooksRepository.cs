@@ -14,6 +14,8 @@ namespace BookLibrary.Storage.Repositories
         private const string BooksTableName = "Books";
         private const string BooksAuthorsTableName = "BooksAuthors";
 
+        public BooksRepository(IDbConnection connection) : base(connection) { }
+
         public async Task<Book> Create(Book book)
         {
             var bookRecord = BookRecord.FromDomain(book);
@@ -75,7 +77,7 @@ namespace BookLibrary.Storage.Repositories
             return book;
         }
 
-        public async Task<IPagedCollection<Book>> GetAll(string serachBookName = "", string serachAuthor = "", uint from = 0, uint count = 10)
+        public async Task<IPagedCollection<Book>> GetAll(string? serachBookName = "", string? serachAuthor = "", uint? from = 0, uint? count = 10)
         {
             var query = DataBase.Query(BooksTableName);
             if (!string.IsNullOrEmpty(serachBookName))
@@ -103,7 +105,7 @@ namespace BookLibrary.Storage.Repositories
                 query = query.Skip((int)from);
             }
 
-            query = query.Take((int)count);
+            query = query.Take((int)(count ?? 0));
             var bookRecords = await query.GetAsync<BookRecord>();
             var books = new List<Book>();
             foreach (var bookRecord in bookRecords)

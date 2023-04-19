@@ -5,7 +5,7 @@ namespace BookLibrary.Domain.Repositories
 {
     public interface IBooksRepository
     {
-        Task<IPagedCollection<Book>> GetAll(string serachBookName = "", string serachAuthor = "", uint from = 0, uint count = 10);
+        Task<IPagedCollection<Book>> GetAll(string? serachBookName = "", string? serachAuthor = "", uint? from = 0, uint? count = 10);
 
         Task<Book?> Get(Guid bookId);
 

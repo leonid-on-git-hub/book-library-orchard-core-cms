@@ -2,7 +2,7 @@
 
 namespace BookLibrary.Storage.Records
 {
-    internal class BookRecord
+    public class BookRecord
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;

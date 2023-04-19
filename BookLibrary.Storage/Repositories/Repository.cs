@@ -1,16 +1,21 @@
 ﻿using SqlKata.Compilers;
 using SqlKata.Execution;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace BookLibrary.Storage.Repositories
 {
     public abstract class Repository
     {
-        public static string ConnectionString { get; set; } = string.Empty;
+        public static string SqlServerConnectionString { get; set; } = string.Empty;
         protected QueryFactory DataBase { get; }
-        protected Repository()
+        protected Repository(IDbConnection connection)
         {
-            var connection = new SqlConnection(ConnectionString);
+            if (connection is SqlConnection)
+            {
+                connection.ConnectionString = SqlServerConnectionString;
+            }
+
             var compiler = new SqlServerCompiler();
             DataBase = new QueryFactory(connection, compiler);
         }

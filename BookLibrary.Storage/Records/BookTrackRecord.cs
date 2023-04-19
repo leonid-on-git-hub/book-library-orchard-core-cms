@@ -2,7 +2,7 @@
 
 namespace BookLibrary.Storage.Records
 {
-    internal class BookTrackRecord
+    public class BookTrackRecord
     {
         public Guid Id { get; set; }
         public Guid BookId { get; set; }

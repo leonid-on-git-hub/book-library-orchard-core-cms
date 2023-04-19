@@ -4,7 +4,7 @@ namespace BookLibrary.Domain.Repositories
 {
     public interface IBookTracksRepository
     {
-        Task<IEnumerable<BookTrack>> GetAll(Guid bookId, int count = 0);
+        Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0);
 
         Task Create(BookTrack bookTrack);
 

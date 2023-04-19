@@ -2,12 +2,15 @@
 using BookLibrary.Domain.ValueObjects;
 using BookLibrary.Storage.Records;
 using SqlKata.Execution;
+using System.Data;
 
 namespace BookLibrary.Storage.Repositories
 {
     public class BookTracksRepository : Repository, IBookTracksRepository
     {
         private const string BookTracksTableName = "BookTracks";
+
+        public BookTracksRepository(IDbConnection connection) : base(connection) { }
 
         public async Task Create(BookTrack bookTrack)
         {
@@ -16,16 +19,17 @@ namespace BookLibrary.Storage.Repositories
             {
                 bookTrackRecord.Id = Guid.NewGuid();
             }
+            bookTrackRecord.ActionDate = DateTime.Now;
 
             await DataBase.Query(BookTracksTableName).InsertAsync(bookTrackRecord);
         }
 
-        public async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, int count = 0)
+        public async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0)
         {
             var query = DataBase.Query(BookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId);
             if (count > 0)
             {
-                query.Take(count);
+                query.Take((int)count);
             }
 
             var bookTracksRecors = await query.GetAsync<BookTrackRecord>();
