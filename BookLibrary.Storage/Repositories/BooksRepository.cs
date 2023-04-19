@@ -21,6 +21,7 @@ namespace BookLibrary.Storage.Repositories
             {
                 bookRecord.Id = Guid.NewGuid();
             }
+
             var persistedBook = await Get(bookRecord.Id);
             if (persistedBook != null)
             {
@@ -57,17 +58,19 @@ namespace BookLibrary.Storage.Repositories
             {
                 return null;
             }
+
             var authors = new List<string>();
             var persistedBooksAuthors = await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).GetAsync<BookAuthorRecord>();
             foreach (var persistedBookAuthor in persistedBooksAuthors)
             {
                 var persistedAuthors = await DataBase.Query(AuthorsTableName).Where(nameof(AuthorRecord.Id), persistedBookAuthor.AuthorId).GetAsync<AuthorRecord>();
                 var persistedAuthor = persistedAuthors.FirstOrDefault();
-                if (persistedAuthor != null)
+                if (persistedAuthor != default)
                 {
                     authors.Add(persistedAuthor.Name);
                 }
             }
+
             var book = Book.FromPersistence(bookRecord.Id, bookRecord.Name, authors, bookRecord.Year, bookRecord.Available);
             return book;
         }
@@ -79,6 +82,7 @@ namespace BookLibrary.Storage.Repositories
             {
                 query = query.WhereLike(nameof(BookRecord.Name), serachBookName, false);
             }
+
             var persistedAuthors = await DataBase.Query(AuthorsTableName).WhereLike(nameof(AuthorRecord.Name), serachAuthor, false).GetAsync<AuthorRecord>();
             var persistedBooksAuthors = await DataBase.Query(BooksAuthorsTableName)
                 .WhereIn(nameof(BookAuthorRecord.AuthorId), persistedAuthors.Select(author => author.Id))
@@ -87,15 +91,18 @@ namespace BookLibrary.Storage.Repositories
             {
                 query = query.WhereIn(nameof(BookRecord.Id), persistedBooksAuthors.Select(bookAuthor => bookAuthor.BookId));
             }
+
             var totalCount = await query.Clone().CountAsync<long>();
             if (totalCount == 0)
             {
                 return new PagedCollection<Book>(Enumerable.Empty<Book>(), totalCount);
             }
+
             if (from > 0)
             {
                 query = query.Skip((int)from);
             }
+
             query = query.Take((int)count);
             var bookRecords = await query.GetAsync<BookRecord>();
             var books = new List<Book>();
@@ -146,7 +153,7 @@ namespace BookLibrary.Storage.Repositories
                 var persistedAuthors = await DataBase.Query(AuthorsTableName).Where(nameof(AuthorRecord.Name), authorName).GetAsync<AuthorRecord>();
                 var persistedAuthor = persistedAuthors.FirstOrDefault();
                 var bookAuthorRecord = new BookAuthorRecord { BookId = bookId };
-                if (persistedAuthor != null)
+                if (persistedAuthor != default)
                 {
                     bookAuthorRecord.AuthorId = persistedAuthor.Id;
                 }
@@ -157,6 +164,7 @@ namespace BookLibrary.Storage.Repositories
                     await DataBase.Query(AuthorsTableName).InsertAsync(newAuthor, transaction);
                     bookAuthorRecord.AuthorId = authorId;
                 }
+
                 await DataBase.Query(BooksAuthorsTableName).InsertAsync(bookAuthorRecord, transaction);
             }
         }

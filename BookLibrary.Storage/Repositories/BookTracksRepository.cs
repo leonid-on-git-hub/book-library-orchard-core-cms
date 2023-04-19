@@ -12,6 +12,11 @@ namespace BookLibrary.Storage.Repositories
         public async Task Create(BookTrack bookTrack)
         {
             var bookTrackRecord = BookTrackRecord.FromDomain(bookTrack);
+            if (bookTrackRecord.Id == default)
+            {
+                bookTrackRecord.Id = Guid.NewGuid();
+            }
+
             await DataBase.Query(BookTracksTableName).InsertAsync(bookTrackRecord);
         }
 
@@ -22,6 +27,7 @@ namespace BookLibrary.Storage.Repositories
             {
                 query.Take(count);
             }
+
             var bookTracksRecors = await query.GetAsync<BookTrackRecord>();
             var bookTracks = bookTracksRecors.Select(bookTrackRecord => bookTrackRecord.ToDomain());
             return bookTracks;

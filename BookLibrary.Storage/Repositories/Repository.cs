@@ -10,10 +10,8 @@ namespace BookLibrary.Storage.Repositories
         protected QueryFactory DataBase { get; }
         protected Repository()
         {
-
             var connection = new SqlConnection(ConnectionString);
             var compiler = new SqlServerCompiler();
-
             DataBase = new QueryFactory(connection, compiler);
         }
     }
