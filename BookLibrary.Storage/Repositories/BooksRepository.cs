@@ -53,7 +53,7 @@ namespace BookLibrary.Storage.Repositories
         {
             var bookRecords = await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookId).GetAsync<BookRecord>();
             var bookRecord = bookRecords.FirstOrDefault();
-            if (bookRecord == null)
+            if (bookRecord == default)
             {
                 return null;
             }
