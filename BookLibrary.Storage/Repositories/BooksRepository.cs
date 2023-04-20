@@ -11,8 +11,8 @@ namespace BookLibrary.Storage.Repositories
     public class BooksRepository : Repository, IBooksRepository
     {
         private const string AuthorsTableName = "Authors";
-        private const string BooksTableName = "Books";
-        private const string BooksAuthorsTableName = "BooksAuthors";
+        protected const string BooksTableName = "Books";
+        protected const string BooksAuthorsTableName = "BooksAuthors";
 
         public BooksRepository(IDbConnection connection) : base(connection) { }
 
@@ -47,7 +47,7 @@ namespace BookLibrary.Storage.Repositories
             return createdBook == null ? throw new InvalidOperationException("Book creation exception. Book not created.") : book;
         }
 
-        public async Task Delete(Guid bookId)
+        public virtual async Task Delete(Guid bookId)
         {
             await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookId).DeleteAsync();
         }

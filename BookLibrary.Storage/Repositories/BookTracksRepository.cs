@@ -8,7 +8,7 @@ namespace BookLibrary.Storage.Repositories
 {
     public class BookTracksRepository : Repository, IBookTracksRepository
     {
-        private const string BookTracksTableName = "BookTracks";
+        public static string BookTracksTableName = "BookTracks";
 
         public BookTracksRepository(IDbConnection connection) : base(connection) { }
 

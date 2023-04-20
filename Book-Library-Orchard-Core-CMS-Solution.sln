@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Domain", "BookL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.Main", "BookLibrary.Main\BookLibrary.Main.csproj", "{437AE5F7-7E06-482C-BFB6-B96649DF44A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.SqlServerStorage", "BookLibrary.SqlServerStorage\BookLibrary.SqlServerStorage.csproj", "{6B8597EA-31F4-4FE8-9689-56DF56A57384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookLibrary.SqlServerStorage", "BookLibrary.SqlServerStorage\BookLibrary.SqlServerStorage.csproj", "{6B8597EA-31F4-4FE8-9689-56DF56A57384}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.SqLiteStorage", "BookLibrary.SqLiteStorage\BookLibrary.SqLiteStorage.csproj", "{070BC2E6-6D5F-41E9-9CC2-DE00706547A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6B8597EA-31F4-4FE8-9689-56DF56A57384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B8597EA-31F4-4FE8-9689-56DF56A57384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B8597EA-31F4-4FE8-9689-56DF56A57384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{070BC2E6-6D5F-41E9-9CC2-DE00706547A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070BC2E6-6D5F-41E9-9CC2-DE00706547A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070BC2E6-6D5F-41E9-9CC2-DE00706547A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070BC2E6-6D5F-41E9-9CC2-DE00706547A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
