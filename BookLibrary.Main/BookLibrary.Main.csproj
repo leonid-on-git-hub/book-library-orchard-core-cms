@@ -22,4 +22,9 @@
     <ProjectReference Include="..\BookLibrary.Domain\BookLibrary.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\" />
+    <Folder Include="wwwroot\Styles\" />
+  </ItemGroup>
+
 </Project>

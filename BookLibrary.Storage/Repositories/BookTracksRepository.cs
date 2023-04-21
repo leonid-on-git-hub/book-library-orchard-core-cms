@@ -8,7 +8,7 @@ namespace BookLibrary.Storage.Repositories
 {
     public class BookTracksRepository : Repository, IBookTracksRepository
     {
-        public static string BookTracksTableName = "BookTracks";
+        public static readonly string bookTracksTableName = "BookTracks";
 
         public BookTracksRepository(IDbConnection connection) : base(connection) { }
 
@@ -21,12 +21,12 @@ namespace BookLibrary.Storage.Repositories
             }
             bookTrackRecord.ActionDate = DateTime.Now;
 
-            await DataBase.Query(BookTracksTableName).InsertAsync(bookTrackRecord);
+            await DataBase.Query(bookTracksTableName).InsertAsync(bookTrackRecord);
         }
 
         public async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0)
         {
-            var query = DataBase.Query(BookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId);
+            var query = DataBase.Query(bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId);
             if (count > 0)
             {
                 query.Take((int)count);
@@ -39,7 +39,7 @@ namespace BookLibrary.Storage.Repositories
 
         public async Task<bool> IsBookAvailableToUser(Guid bookId, string userLogin)
         {
-            var bookTracks = await DataBase.Query(BookTracksTableName)
+            var bookTracks = await DataBase.Query(bookTracksTableName)
                 .Where(nameof(BookTrackRecord.Login), userLogin)
                 .Where(nameof(BookTrackRecord.BookId), bookId)
                 .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put))

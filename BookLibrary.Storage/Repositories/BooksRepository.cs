@@ -10,9 +10,9 @@ namespace BookLibrary.Storage.Repositories
 {
     public class BooksRepository : Repository, IBooksRepository
     {
-        private const string AuthorsTableName = "Authors";
-        protected const string BooksTableName = "Books";
-        protected const string BooksAuthorsTableName = "BooksAuthors";
+        private const string authorsTableName = "Authors";
+        protected const string booksTableName = "Books";
+        protected const string booksAuthorsTableName = "BooksAuthors";
 
         public BooksRepository(IDbConnection connection) : base(connection) { }
 
@@ -33,7 +33,7 @@ namespace BookLibrary.Storage.Repositories
             using var transaction = DataBase.Connection.BeginTransaction();
             try
             {
-                await DataBase.Query(BooksTableName).InsertAsync(bookRecord, transaction);
+                await DataBase.Query(booksTableName).InsertAsync(bookRecord, transaction);
                 await BindBookAndAuthors(bookRecord.Id, book.Authors, transaction);
                 transaction.Commit();
             }
@@ -49,12 +49,12 @@ namespace BookLibrary.Storage.Repositories
 
         public virtual async Task Delete(Guid bookId)
         {
-            await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookId).DeleteAsync();
+            await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookId).DeleteAsync();
         }
 
         public async Task<Book?> Get(Guid bookId)
         {
-            var bookRecords = await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookId).GetAsync<BookRecord>();
+            var bookRecords = await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookId).GetAsync<BookRecord>();
             var bookRecord = bookRecords.FirstOrDefault();
             if (bookRecord == default)
             {
@@ -62,10 +62,10 @@ namespace BookLibrary.Storage.Repositories
             }
 
             var authors = new List<string>();
-            var persistedBooksAuthors = await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).GetAsync<BookAuthorRecord>();
+            var persistedBooksAuthors = await DataBase.Query(booksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).GetAsync<BookAuthorRecord>();
             foreach (var persistedBookAuthor in persistedBooksAuthors)
             {
-                var persistedAuthors = await DataBase.Query(AuthorsTableName).Where(nameof(AuthorRecord.Id), persistedBookAuthor.AuthorId).GetAsync<AuthorRecord>();
+                var persistedAuthors = await DataBase.Query(authorsTableName).Where(nameof(AuthorRecord.Id), persistedBookAuthor.AuthorId).GetAsync<AuthorRecord>();
                 var persistedAuthor = persistedAuthors.FirstOrDefault();
                 if (persistedAuthor != default)
                 {
@@ -79,14 +79,14 @@ namespace BookLibrary.Storage.Repositories
 
         public async Task<IPagedCollection<Book>> GetAll(string? serachBookName = "", string? serachAuthor = "", uint? from = 0, uint? count = 10)
         {
-            var query = DataBase.Query(BooksTableName);
+            var query = DataBase.Query(booksTableName);
             if (!string.IsNullOrEmpty(serachBookName))
             {
                 query = query.WhereLike(nameof(BookRecord.Name), serachBookName, false);
             }
 
-            var persistedAuthors = await DataBase.Query(AuthorsTableName).WhereLike(nameof(AuthorRecord.Name), serachAuthor, false).GetAsync<AuthorRecord>();
-            var persistedBooksAuthors = await DataBase.Query(BooksAuthorsTableName)
+            var persistedAuthors = await DataBase.Query(authorsTableName).WhereLike(nameof(AuthorRecord.Name), serachAuthor, false).GetAsync<AuthorRecord>();
+            var persistedBooksAuthors = await DataBase.Query(booksAuthorsTableName)
                 .WhereIn(nameof(BookAuthorRecord.AuthorId), persistedAuthors.Select(author => author.Id))
                 .GetAsync<BookAuthorRecord>();
             if (persistedBooksAuthors.Any())
@@ -128,8 +128,8 @@ namespace BookLibrary.Storage.Repositories
                 using var transaction = DataBase.Connection.BeginTransaction();
                 try
                 {
-                    await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookRecord.Id).UpdateAsync(bookRecord, transaction);
-                    await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).DeleteAsync(transaction);
+                    await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookRecord.Id).UpdateAsync(bookRecord, transaction);
+                    await DataBase.Query(booksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookRecord.Id).DeleteAsync(transaction);
                     await BindBookAndAuthors(book.Id, book.Authors, transaction);
                     transaction.Commit();
                 }
@@ -152,7 +152,7 @@ namespace BookLibrary.Storage.Repositories
         {
             foreach (var authorName in authors)
             {
-                var persistedAuthors = await DataBase.Query(AuthorsTableName).Where(nameof(AuthorRecord.Name), authorName).GetAsync<AuthorRecord>();
+                var persistedAuthors = await DataBase.Query(authorsTableName).Where(nameof(AuthorRecord.Name), authorName).GetAsync<AuthorRecord>();
                 var persistedAuthor = persistedAuthors.FirstOrDefault();
                 var bookAuthorRecord = new BookAuthorRecord { BookId = bookId };
                 if (persistedAuthor != default)
@@ -163,11 +163,11 @@ namespace BookLibrary.Storage.Repositories
                 {
                     var authorId = Guid.NewGuid();
                     var newAuthor = new AuthorRecord { Id = authorId, Name = authorName };
-                    await DataBase.Query(AuthorsTableName).InsertAsync(newAuthor, transaction);
+                    await DataBase.Query(authorsTableName).InsertAsync(newAuthor, transaction);
                     bookAuthorRecord.AuthorId = authorId;
                 }
 
-                await DataBase.Query(BooksAuthorsTableName).InsertAsync(bookAuthorRecord, transaction);
+                await DataBase.Query(booksAuthorsTableName).InsertAsync(bookAuthorRecord, transaction);
             }
         }
 

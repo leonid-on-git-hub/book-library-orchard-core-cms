@@ -14,9 +14,9 @@ namespace BookLibrary.SqLiteStorage.Repositories
             using var transaction = DataBase.Connection.BeginTransaction();
             try
             {
-                await DataBase.Query(BookTracksRepository.BookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId).DeleteAsync(transaction);
-                await DataBase.Query(BooksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookId).DeleteAsync(transaction);
-                await DataBase.Query(BooksTableName).Where(nameof(BookRecord.Id), bookId).DeleteAsync(transaction);
+                await DataBase.Query(BookTracksRepository.bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId).DeleteAsync(transaction);
+                await DataBase.Query(booksAuthorsTableName).Where(nameof(BookAuthorRecord.BookId), bookId).DeleteAsync(transaction);
+                await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookId).DeleteAsync(transaction);
             }
             catch (Exception)
             {

@@ -9,10 +9,13 @@ namespace BookLibrary.Main
     {
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
+            builder.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             routes.MapAreaControllerRoute(
                 name: "Home",
                 areaName: "BookLibrary.Main",
