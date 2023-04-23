@@ -15,7 +15,7 @@ namespace BookLibrary.Storage.Records
             {
                 Id = book.Id,
                 Name = book.Name,
-                Year = book.Year,
+                Year = book.Year ?? new DateTime(1753, 1, 1),
                 Available = book.Available
             };
         }
