@@ -30,6 +30,7 @@ namespace BookLibrary.Storage.Repositories
                 throw new InvalidOperationException($"The book with Id: {bookRecord.Id} already exists.");
             }
 
+            DataBase.Connection.Open();
             using var transaction = DataBase.Connection.BeginTransaction();
             try
             {
@@ -42,6 +43,10 @@ namespace BookLibrary.Storage.Repositories
                 transaction.Rollback();
                 throw;
             }
+            finally 
+            { 
+                DataBase.Connection.Close(); 
+            }  
 
             var createdBook = await Get(bookRecord.Id);
             return createdBook == null ? throw new InvalidOperationException("Book creation exception. Book not created.") : book;
@@ -73,19 +78,33 @@ namespace BookLibrary.Storage.Repositories
                 }
             }
 
-            var book = Book.FromPersistence(bookRecord.Id, bookRecord.Name, authors, bookRecord.Year, bookRecord.Available);
+            var book = Book.FromPersistence(bookRecord.Id, bookRecord.Name, authors, bookRecord.Year?.ToLocalTime(), bookRecord.Available);
             return book;
         }
 
-        public async Task<IPagedCollection<Book>> GetAll(string? serachBookName = "", string? serachAuthor = "", uint? from = 0, uint? count = 10)
+        public async Task<IPagedCollection<Book>> GetAll(
+            string? serachBookName = "", 
+            string? serachAuthor = "", 
+            DateTime? serachYear = null,
+            bool searchOnlyAvailable = false,
+            uint? from = 0, 
+            uint? count = 10)
         {
             var query = DataBase.Query(booksTableName);
             if (!string.IsNullOrEmpty(serachBookName))
             {
-                query = query.WhereLike(nameof(BookRecord.Name), serachBookName, false);
+                query = query.WhereContains(nameof(BookRecord.Name), serachBookName, false);
+            }
+            if (serachYear.HasValue)
+            {
+                query = query.WhereDatePart("year", nameof(BookRecord.Year), serachYear?.Year);
+            }
+            if (searchOnlyAvailable)
+            {
+                query = query.WhereTrue(nameof(BookRecord.Available));
             }
 
-            var persistedAuthors = await DataBase.Query(authorsTableName).WhereLike(nameof(AuthorRecord.Name), serachAuthor, false).GetAsync<AuthorRecord>();
+            var persistedAuthors = await DataBase.Query(authorsTableName).WhereContains(nameof(AuthorRecord.Name), serachAuthor, false).GetAsync<AuthorRecord>();
             var persistedBooksAuthors = await DataBase.Query(booksAuthorsTableName)
                 .WhereIn(nameof(BookAuthorRecord.AuthorId), persistedAuthors.Select(author => author.Id))
                 .GetAsync<BookAuthorRecord>();
@@ -125,6 +144,7 @@ namespace BookLibrary.Storage.Repositories
             var persistedBook = await Get(bookRecord.Id);
             if (persistedBook != null)
             {
+                DataBase.Connection.Open();
                 using var transaction = DataBase.Connection.BeginTransaction();
                 try
                 {
@@ -137,6 +157,10 @@ namespace BookLibrary.Storage.Repositories
                 {
                     transaction.Rollback();
                     throw;
+                }
+                finally
+                {
+                    DataBase.Connection.Close();
                 }
             }
             else

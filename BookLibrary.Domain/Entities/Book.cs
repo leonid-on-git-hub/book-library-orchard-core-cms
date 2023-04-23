@@ -5,10 +5,10 @@
         public Guid Id { get; }
         public string Name { get; }
         public IEnumerable<string> Authors { get; }
-        public DateTime Year { get; }
+        public DateTime? Year { get; }
         public bool Available { get; }
 
-        public Book(Guid id, string name, IEnumerable<string> authors, DateTime year, bool available)
+        public Book(Guid id, string name, IEnumerable<string> authors, DateTime? year, bool available)
         {
             Id = id;
             Name = name;
@@ -17,7 +17,7 @@
             Available = available;
         }
 
-        public static Book FromPersistence(Guid id, string name, IEnumerable<string> authors, DateTime year, bool available)
+        public static Book FromPersistence(Guid id, string name, IEnumerable<string> authors, DateTime? year, bool available)
         {
             return new Book(id, name, authors, year, available);
         }

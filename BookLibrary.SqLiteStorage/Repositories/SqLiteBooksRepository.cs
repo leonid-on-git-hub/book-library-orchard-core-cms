@@ -11,6 +11,7 @@ namespace BookLibrary.SqLiteStorage.Repositories
 
         public override async Task Delete(Guid bookId)
         {
+            DataBase.Connection.Open();
             using var transaction = DataBase.Connection.BeginTransaction();
             try
             {
@@ -22,6 +23,10 @@ namespace BookLibrary.SqLiteStorage.Repositories
             {
                 transaction.Rollback();
                 throw;
+            }
+            finally
+            {
+                DataBase.Connection.Close();
             }
 
         }

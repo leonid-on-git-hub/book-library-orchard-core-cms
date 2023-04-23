@@ -1,12 +1,16 @@
 ﻿using BookLibrary.Domain.Dtos;
 using BookLibrary.Domain.Entities;
 using BookLibrary.Domain.Repositories;
+using BookLibrary.Main.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookLibrary.Main.WebApi
 {
     [Route("api/books")]
     [ApiController]
+    [AllowAnonymous]
+    [IgnoreAntiforgeryToken]
     public class BooksApiController : ControllerBase
     {
         private readonly IBooksRepository booksRepository;
@@ -17,20 +21,27 @@ namespace BookLibrary.Main.WebApi
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Book book)
+        public async Task<ActionResult> Create([FromBody] BookDto bookDto)
         {
+            var book = bookDto.ToDomain();
             var createdBook = await booksRepository.Create(book);
             return Created($"api/books/{createdBook.Id}", createdBook);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IPagedCollection<Book>>> GetAll(string? serachBookName = "", string? serachAuthor = "", uint? from = 0, uint? count = 10)
+        public async Task<ActionResult<IPagedCollection<Book>>> GetAll(
+            string? serachBookName = "", 
+            string? serachAuthor = "", 
+            DateTime? serachYear = null, 
+            bool searchOnlyAvailable = false,
+            uint? from = 0, 
+            uint? count = 10)
         {
-            var booksCollection = await booksRepository.GetAll(serachBookName, serachAuthor, from, count);
+            var booksCollection = await booksRepository.GetAll(serachBookName, serachAuthor, serachYear, searchOnlyAvailable, from, count);
             return Ok(booksCollection);
         }
 
-        [HttpGet("id:Guid")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Book>> Get(Guid id)
         {
             var book = await booksRepository.Get(id);
@@ -42,7 +53,7 @@ namespace BookLibrary.Main.WebApi
             return Ok(book);
         }
 
-        [HttpPut("id:Guid")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] Book updatedBook)
         {
             if (id != updatedBook.Id)
@@ -54,7 +65,7 @@ namespace BookLibrary.Main.WebApi
             return NoContent();
         }
 
-        [HttpDelete("id:Guid")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await booksRepository.Delete(id);

@@ -14,7 +14,7 @@ namespace BookLibrary.SqLiteStorage.Migrations
             Create.Table("Books")
                 .WithColumn("Id").AsGuid().NotNullable().PrimaryKey()
                 .WithColumn("Name").AsString(1024).NotNullable()
-                .WithColumn("Year").AsDateTime().NotNullable()
+                .WithColumn("Year").AsDateTime().Nullable()
                 .WithColumn("Available").AsBoolean().NotNullable().WithDefaultValue(true);
 
             Create.Table("BooksAuthors")
