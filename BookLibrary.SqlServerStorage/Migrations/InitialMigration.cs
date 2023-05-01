@@ -22,10 +22,10 @@ namespace BookLibrary.SqlServerStorage.Migrations
                 .WithColumn("AuthorId").AsGuid().NotNullable().PrimaryKey();
             Create.ForeignKey("FK_BooksAuthorsAuthorId")
                 .FromTable("BooksAuthors").ForeignColumn("AuthorId")
-                .ToTable("Authors").PrimaryColumn("Id");
+                .ToTable("Authors").PrimaryColumn("Id").OnDeleteOrUpdate(System.Data.Rule.Cascade);
             Create.ForeignKey("FK_BooksAuthorsBookId")
                 .FromTable("BooksAuthors").ForeignColumn("BookId")
-                .ToTable("Books").PrimaryColumn("Id");
+                .ToTable("Books").PrimaryColumn("Id").OnDeleteOrUpdate(System.Data.Rule.Cascade);
 
             Create.Table("BookTracks")
                 .WithColumn("Id").AsGuid().NotNullable().PrimaryKey()
@@ -35,7 +35,7 @@ namespace BookLibrary.SqlServerStorage.Migrations
                 .WithColumn("Action").AsString(256).NotNullable();
             Create.ForeignKey("FK_BookTracksBookId")
                 .FromTable("BookTracks").ForeignColumn("BookId")
-                .ToTable("Books").PrimaryColumn("Id");
+                .ToTable("Books").PrimaryColumn("Id").OnDeleteOrUpdate(System.Data.Rule.Cascade);
         }
 
         public override void Down()

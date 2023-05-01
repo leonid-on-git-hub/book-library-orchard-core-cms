@@ -31,6 +31,7 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
             padding: '20 20 0 20',
             grow: true,
             msgTarget: 'under',
+            minHeight: 70,
             growMax: 300,
             fieldLabel: 'Name',
             bind: {
