@@ -12,7 +12,7 @@ namespace BookLibrary.Main
             manifest = new ResourceManifest();
 
             manifest
-                .DefineStyle("MaterialTheme")
+                .DefineStyle("TritonTheme")
                 .SetUrl("~/BookLibrary.Main/classic/resources/BookLibrary.UI.Books-all.css");
 
             manifest

@@ -90,12 +90,28 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
             xtype: 'textfield',
             fieldLabel: 'Name',
             labelWidth: 40,
-            bind: '{serachBookName}'
+            enableKeyEvents: true,
+            bind: '{serachBookName}',
+            listeners: {
+                keypress: function (me, e, eOpts) {
+                    if (e.getKey() == e.ENTER) {
+                        me.up('grid').getController().onSearch();
+                    }
+                }
+            }
         }, {
             xtype: 'textfield',
             fieldLabel: 'Author',
             labelWidth: 44,
-            bind: '{serachAuthor}'
+            enableKeyEvents: true,
+            bind: '{serachAuthor}',
+            listeners: {
+                keypress: function (me, e, eOpts) {
+                    if (e.getKey() == e.ENTER) {
+                        me.up('grid').getController().onSearch();
+                    }
+                }
+            }
         }, {
             xtype: 'datefield',
             fieldLabel: 'Year',
