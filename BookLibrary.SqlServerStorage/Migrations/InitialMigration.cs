@@ -30,7 +30,7 @@ namespace BookLibrary.SqlServerStorage.Migrations
             Create.Table("BookTracks")
                 .WithColumn("Id").AsGuid().NotNullable().PrimaryKey()
                 .WithColumn("BookId").AsGuid().NotNullable()
-                .WithColumn("Login").AsString(100).NotNullable()
+                .WithColumn("UserId").AsString(100).NotNullable()
                 .WithColumn("ActionDate").AsDateTime().NotNullable()
                 .WithColumn("Action").AsString(256).NotNullable();
             Create.ForeignKey("FK_BookTracksBookId")

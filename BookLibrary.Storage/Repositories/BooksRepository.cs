@@ -91,7 +91,7 @@ namespace BookLibrary.Storage.Repositories
             uint? from = 0, 
             uint? count = 10)
         {
-            var query = DataBase.Query(booksTableName);
+            var query = DataBase.Query(booksTableName).OrderBy(new string[] { nameof(BookRecord.Name) });
             if (!string.IsNullOrEmpty(serachBookName))
             {
                 query = query.WhereContains(nameof(BookRecord.Name), serachBookName, false);

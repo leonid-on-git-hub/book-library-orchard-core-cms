@@ -2,6 +2,7 @@
 {
     public enum BookAction
     {
+        Created,
         Taken,
         Put
     }

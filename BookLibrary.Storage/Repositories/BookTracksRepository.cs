@@ -19,14 +19,14 @@ namespace BookLibrary.Storage.Repositories
             {
                 bookTrackRecord.Id = Guid.NewGuid();
             }
-            bookTrackRecord.ActionDate = DateTime.Now;
+            bookTrackRecord.ActionDate = DateTime.UtcNow;
 
             await DataBase.Query(bookTracksTableName).InsertAsync(bookTrackRecord);
         }
 
         public async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0)
         {
-            var query = DataBase.Query(bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId);
+            var query = DataBase.Query(bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId).OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) });
             if (count > 0)
             {
                 query.Take((int)count);
@@ -37,17 +37,24 @@ namespace BookLibrary.Storage.Repositories
             return bookTracks;
         }
 
-        public async Task<bool> IsBookAvailableToUser(Guid bookId, string userLogin)
+        public async Task<bool> IsBookAvailableToUser(Guid bookId, string userId)
         {
-            var bookTracks = await DataBase.Query(bookTracksTableName)
-                .Where(nameof(BookTrackRecord.Login), userLogin)
+            var userBookTracks = await DataBase.Query(bookTracksTableName)
+                .Where(nameof(BookTrackRecord.UserId), userId)
                 .Where(nameof(BookTrackRecord.BookId), bookId)
-                .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put))
+                .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken.ToString()).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put.ToString()))
                 .OrderBy(new string[] { nameof(BookTrackRecord.ActionDate) })
                 .Take(1)
                 .GetAsync<BookTrackRecord>();
-            var bookTrack = bookTracks.FirstOrDefault();
-            return bookTrack?.Action == BookAction.Taken.ToString();
+            var userBookTrack = userBookTracks.FirstOrDefault();
+            var allBookTracks = await DataBase.Query(bookTracksTableName)
+                .Where(nameof(BookTrackRecord.BookId), bookId)
+                .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken.ToString()).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put.ToString()))
+                .OrderBy(new string[] { nameof(BookTrackRecord.ActionDate) })
+                .Take(1)
+                .GetAsync<BookTrackRecord>();
+            var bookTrack = allBookTracks.FirstOrDefault();
+            return bookTrack?.Action == default || userBookTrack?.Action == BookAction.Taken.ToString() || bookTrack?.Action == BookAction.Put.ToString();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace BookLibrary.Storage.Records
     {
         public Guid Id { get; set; }
         public Guid BookId { get; set; }
-        public string Login { get; set; } = string.Empty;
+        public string UserId { get; set; } = string.Empty;
         public DateTime ActionDate { get; set; }
         public string Action { get; set; } = string.Empty;
 
@@ -15,7 +15,7 @@ namespace BookLibrary.Storage.Records
             return new BookTrackRecord
             {
                 BookId = bookTrack.BookId,
-                Login = bookTrack.Login,
+                UserId = bookTrack.UserId,
                 Action = bookTrack.Action.ToString(),
                 ActionDate = bookTrack.ActionDate
             };
@@ -27,7 +27,7 @@ namespace BookLibrary.Storage.Records
             {
                 throw new InvalidOperationException("BookTrackRecord, ToDomain method can't parse action to enum.");
             }
-            return BookTrack.FromPersistence(BookId, Login, ActionDate, (BookAction)action);
+            return BookTrack.FromPersistence(BookId, UserId, ActionDate, (BookAction)action);
         }
     }
 }

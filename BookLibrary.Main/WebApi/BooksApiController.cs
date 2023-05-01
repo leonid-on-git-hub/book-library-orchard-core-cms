@@ -21,7 +21,7 @@ namespace BookLibrary.Main.WebApi
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] BookDto bookDto)
+        public async Task<IActionResult> Create([FromBody] BookDto bookDto)
         {
             var book = bookDto.ToDomain();
             var createdBook = await booksRepository.Create(book);
@@ -30,11 +30,11 @@ namespace BookLibrary.Main.WebApi
 
         [HttpGet]
         public async Task<ActionResult<IPagedCollection<Book>>> GetAll(
-            string? serachBookName = "", 
-            string? serachAuthor = "", 
-            DateTime? serachYear = null, 
+            string? serachBookName = "",
+            string? serachAuthor = "",
+            DateTime? serachYear = null,
             bool searchOnlyAvailable = false,
-            uint? from = 0, 
+            uint? from = 0,
             uint? count = 10)
         {
             var booksCollection = await booksRepository.GetAll(serachBookName, serachAuthor, serachYear, searchOnlyAvailable, from, count);
