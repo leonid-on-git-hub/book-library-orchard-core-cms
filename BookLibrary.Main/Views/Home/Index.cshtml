@@ -1,1 +1,26 @@
-﻿Coming soon...
+﻿@await Html.PartialAsync("../Partial/ExtJs.cshtml")
+
+<script type="text/javascript">
+    const appBaseUrl = window.location.origin + '@(Url.Content("~/"))';
+</script>
+
+<script asp-name="Books.controller.BookAuthorsGridController" at="Foot"></script>
+<script asp-name="Books.controller.BookController" at="Foot"></script>
+<script asp-name="Books.controller.BooksGridController" at="Foot"></script>
+<script asp-name="Books.model.Base" at="Foot"></script>
+<script asp-name="Books.model.Book" at="Foot"></script>
+<script asp-name="Books.service.BookService" at="Foot"></script>
+<script asp-name="Books.service.BookTracksService" at="Foot"></script>
+<script asp-name="Books.service.UserService" at="Foot"></script>
+<script asp-name="Books.validator.BookNameValidator" at="Head"></script>
+<script asp-name="Books.validator.BookYearValidator" at="Head"></script>
+<script asp-name="Books.view.window.BookWindow" at="Foot"></script>
+<script asp-name="Books.view.BookAuthorsGrid" at="Foot"></script>
+<script asp-name="Books.view.BooksGrid" at="Foot"></script>
+<script asp-name="Books.view.BookTracksGrid" at="Foot"></script>
+<script asp-name="Books.viewmodel.BooksViewModel" at="Foot"></script>
+<script asp-name="Books.viewmodel.BookViewModel" at="Foot"></script>
+<script asp-name="Books.Constants" at="Head"></script>
+<script asp-name="Books.BooksApplication" at="Foot"></script>
+
+<div id="books-grid-container"></div>

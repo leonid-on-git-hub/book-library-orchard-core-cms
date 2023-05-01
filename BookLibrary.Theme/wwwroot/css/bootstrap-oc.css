@@ -10286,18 +10286,25 @@ html {
   min-height: 100%;
 }
 
+.x-body {
+  line-height: var(--bs-body-line-height) !important;
+  font-weight: var(--bs-body-font-weight) !important;
+  font-size: var(--bs-body-font-size) !important;
+  font-family: var(--bs-body-font-family) !important;
+}
+
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
-  background-image: url("../images/earth-view-from-satellite-space-systems-cover.jpg");
+  margin-bottom: 60px !important;
+  background-image: url("../images/earth-view-from-satellite-space-systems-cover.jpg") !important;
   background-color: #000000 !important;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center center;
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
 }
 
 body > footer {
@@ -10314,12 +10321,12 @@ body > footer {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 body > .container {
-  padding: 15px 15px 15px;
-  opacity: 0.75;
-  background-color: #000203;
-  border-radius: 0.3rem;
-  margin-top: 70px;
-  height: calc(97vh - 100px);
+  padding: 15px 15px 15px !important;
+  opacity: 0.9 !important;
+  background-color: #000203 !important;
+  border-radius: 0.3rem !important;
+  margin-top: 70px !important;
+  height: calc(97vh - 100px) !important;
   color: #ffd700 !important;
 }
 
@@ -10337,4 +10344,9 @@ a.nav-link {
 
 a.login-link {
   color: #ffd700 !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  src: url("../resources/font-awesome/fonts/fa-solid-900.ttf");
 }

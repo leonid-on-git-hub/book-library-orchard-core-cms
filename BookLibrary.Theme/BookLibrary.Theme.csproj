@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Controllers\HomeController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OrchardCore.Admin.Abstractions" Version="1.6.0" />
     <PackageReference Include="OrchardCore.Menu" Version="1.6.0" />
     <PackageReference Include="OrchardCore.Theme.Targets" Version="1.6.0" />

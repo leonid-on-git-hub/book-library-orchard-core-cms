@@ -11,8 +11,6 @@ namespace BookLibrary.Main.WebApi
 {
     [Route("api/booktracks")]
     [ApiController]
-    [AllowAnonymous]
-    [IgnoreAntiforgeryToken]
     public class BookTracksApiController : ControllerBase
     {
         private readonly IBookTracksRepository bookTracksRepository;

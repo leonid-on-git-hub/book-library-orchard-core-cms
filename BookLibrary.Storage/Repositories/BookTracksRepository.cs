@@ -43,14 +43,14 @@ namespace BookLibrary.Storage.Repositories
                 .Where(nameof(BookTrackRecord.UserId), userId)
                 .Where(nameof(BookTrackRecord.BookId), bookId)
                 .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken.ToString()).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put.ToString()))
-                .OrderBy(new string[] { nameof(BookTrackRecord.ActionDate) })
+                .OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) })
                 .Take(1)
                 .GetAsync<BookTrackRecord>();
             var userBookTrack = userBookTracks.FirstOrDefault();
             var allBookTracks = await DataBase.Query(bookTracksTableName)
                 .Where(nameof(BookTrackRecord.BookId), bookId)
                 .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken.ToString()).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put.ToString()))
-                .OrderBy(new string[] { nameof(BookTrackRecord.ActionDate) })
+                .OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) })
                 .Take(1)
                 .GetAsync<BookTrackRecord>();
             var bookTrack = allBookTracks.FirstOrDefault();
