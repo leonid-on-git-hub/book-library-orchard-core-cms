@@ -46,15 +46,7 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
         flex: 1,
         dataIndex: 'year',
         renderer: function (value) {
-            var date = new Date(value);
-            const yyyy = date.getFullYear();
-            let mm = date.getMonth() + 1;
-            let dd = date.getDate();
-
-            if (dd < 10) dd = '0' + dd;
-            if (mm < 10) mm = '0' + mm;
-
-            return dd + '/' + mm + '/' + yyyy;
+            return Ext.Date.format(value, Constants.DATE_FORAMAT);
         }
     }, {
         text: 'Available',

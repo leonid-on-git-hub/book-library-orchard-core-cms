@@ -39,8 +39,7 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
                 readOnly: '{readOnly}'
             },
             validator: function (value) {
-                var validator = Ext.create('BookLibrary.UI.Books.validator.BookNameValidator');
-                return validator.validate(value);
+                return BookNameValidator.validate(value);
             }
         }, {
             xtype: 'container',
@@ -60,8 +59,7 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
                     readOnly: '{readOnly}'
                 },
                 validator: function (value) {
-                    var validator = Ext.create('BookLibrary.UI.Books.validator.BookYearValidator');
-                    return validator.validate(value);
+                    return BookYearValidator.validate(value);
                 }
             }, {
                 xtype: 'checkboxfield',

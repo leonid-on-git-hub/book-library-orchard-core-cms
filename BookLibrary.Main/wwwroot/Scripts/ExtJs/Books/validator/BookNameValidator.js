@@ -1,6 +1,8 @@
 Ext.define('BookLibrary.UI.Books.validator.BookNameValidator', {
     extend: 'Ext.data.validator.Validator',
     alias: 'validator.booknamevalidator',
+    alternateClassName: 'BookNameValidator',
+    singleton: true,
     validate: function (value){
         if(value.match(/^ *$/) !== null){
             return "The book name can't be empty or whitespace";

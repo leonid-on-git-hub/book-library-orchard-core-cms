@@ -3,6 +3,7 @@ Ext.define('BookLibrary.UI.Books.model.Constants', {
     alternateClassName: 'Constants',
     APPLICATION_BASE_URL: typeof appBaseUrl !== 'undefined' ? appBaseUrl : '',
     DATE_FORAMAT: 'd/m/Y',
+    DATETIME_FORAMAT: 'd/m/Y h:i:s',
     MIN_DATE: Ext.Date.parse('01/01/1753', this.DATE_FORAMAT),
 
     getRequestVerificationToken: function(){

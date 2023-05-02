@@ -47,6 +47,9 @@ namespace BookLibrary.Main
                 .SetUrl("~/BookLibrary.Main/Scripts/ExtJs/Books/service/UserService.js");
 
             manifest
+                .DefineScript("Books.validator.BookAuthorValidator")
+                .SetUrl("~/BookLibrary.Main/Scripts/ExtJs/Books/validator/BookAuthorValidator.js");
+            manifest
                 .DefineScript("Books.validator.BookNameValidator")
                 .SetUrl("~/BookLibrary.Main/Scripts/ExtJs/Books/validator/BookNameValidator.js");
             manifest

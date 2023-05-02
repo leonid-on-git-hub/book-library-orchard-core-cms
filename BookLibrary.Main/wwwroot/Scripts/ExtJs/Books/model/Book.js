@@ -14,7 +14,7 @@ Ext.define('BookLibrary.UI.Books.model.Book', {
     ],
     idProperty: 'id',
     validators: {
-        name: Ext.create('BookLibrary.UI.Books.validator.BookNameValidator'),
-        year: Ext.create('BookLibrary.UI.Books.validator.BookYearValidator')
+        name: BookNameValidator,
+        year: BookYearValidator
     }
 });

@@ -1,6 +1,8 @@
 Ext.define('BookLibrary.UI.Books.validator.BookYearValidator', {
     extend: 'Ext.data.validator.Validator',
     alias: 'validator.bookyearvalidator',
+    alternateClassName: 'BookYearValidator',
+    singleton: true,
     validate: function (value){
         if(!value){
             return "The book year can't be empty";

@@ -31,10 +31,7 @@ Ext.define('BookLibrary.UI.Books.view.BookAuthorsGrid', {
                 editable: '{!readOnly}'
             },
             validator: function (value) {
-                if (value.length > 64) {
-                    return 'The author name max length is 64 characters';
-                }
-                return true;
+                return BookAuthorValidator.validate(value);
             }
         }
     }],
