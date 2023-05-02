@@ -2,7 +2,6 @@
 using BookLibrary.Domain.Entities;
 using BookLibrary.Domain.Repositories;
 using BookLibrary.Main.Dtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookLibrary.Main.WebApi

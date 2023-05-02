@@ -5,7 +5,6 @@ using BookLibrary.Storage.Dtos;
 using BookLibrary.Storage.Records;
 using SqlKata.Execution;
 using System.Data;
-using System.Net;
 
 namespace BookLibrary.Storage.Repositories
 {
@@ -44,10 +43,10 @@ namespace BookLibrary.Storage.Repositories
                 transaction.Rollback();
                 throw;
             }
-            finally 
-            { 
-                DataBase.Connection.Close(); 
-            }  
+            finally
+            {
+                DataBase.Connection.Close();
+            }
 
             var createdBook = await Get(bookRecord.Id);
             return createdBook == null ? throw new InvalidOperationException("Book creation exception. Book not created.") : book;
@@ -84,11 +83,11 @@ namespace BookLibrary.Storage.Repositories
         }
 
         public virtual async Task<IPagedCollection<Book>> GetAll(
-            string? serachBookName = "", 
-            string? serachAuthor = "", 
+            string? serachBookName = "",
+            string? serachAuthor = "",
             DateTime? serachYear = null,
             bool searchOnlyAvailable = false,
-            uint? from = 0, 
+            uint? from = 0,
             uint? count = 10)
         {
             var query = DataBase.Query(booksTableName).OrderBy(new string[] { nameof(BookRecord.Name) });
@@ -202,7 +201,7 @@ namespace BookLibrary.Storage.Repositories
                     .Where(nameof(BookAuthorRecord.AuthorId), bookAuthorRecord.AuthorId)
                     .Where(nameof(BookAuthorRecord.BookId), bookAuthorRecord.BookId)
                     .GetAsync<BookAuthorRecord>(transaction);
-                if(persistedBookAuthor.FirstOrDefault() == default)
+                if (persistedBookAuthor.FirstOrDefault() == default)
                 {
                     await DataBase.Query(booksAuthorsTableName).InsertAsync(bookAuthorRecord, transaction);
                 }

@@ -1,6 +1,4 @@
-﻿using BookLibrary.Domain.ValueObjects;
-
-namespace BookLibrary.Main.Dtos
+﻿namespace BookLibrary.Main.Dtos
 {
     public class BookTrackDto
     {

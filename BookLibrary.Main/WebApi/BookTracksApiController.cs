@@ -1,7 +1,6 @@
 ﻿using BookLibrary.Domain.Repositories;
 using BookLibrary.Domain.ValueObjects;
 using BookLibrary.Main.Dtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.Users;
