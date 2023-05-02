@@ -14,17 +14,19 @@ namespace BookLibrary.Storage.Repositories
         protected QueryFactory DataBase { get; }
         protected Repository(IDbConnection connection)
         {
+            Compiler? compiler = null;
             if (connection is SqliteConnection)
             {
                 connection.ConnectionString = SqLiteConnectionString;
+                compiler = new SqliteCompiler();
             }
 
             if (connection is SqlConnection)
             {
                 connection.ConnectionString = SqlServerConnectionString;
+                compiler = new SqlServerCompiler();
             }
 
-            var compiler = new SqlServerCompiler();
             DataBase = new QueryFactory(connection, compiler);
         }
     }

@@ -19,7 +19,7 @@ namespace BookLibrary.SqLiteStorage
         {
             services.AddScoped<IDbConnection, SqliteConnection>();
             services.AddScoped<IBooksRepository, SqLiteBooksRepository>();
-            services.AddScoped<IBookTracksRepository, BookTracksRepository>();
+            services.AddScoped<IBookTracksRepository, SqLiteBookTracksRepository>();
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

@@ -24,7 +24,7 @@ namespace BookLibrary.Storage.Repositories
             await DataBase.Query(bookTracksTableName).InsertAsync(bookTrackRecord);
         }
 
-        public async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0)
+        public virtual async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0)
         {
             var query = DataBase.Query(bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId).OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) });
             if (count > 0)
@@ -37,7 +37,7 @@ namespace BookLibrary.Storage.Repositories
             return bookTracks;
         }
 
-        public async Task<bool> IsBookAvailableToUser(Guid bookId, string userId)
+        public virtual async Task<bool> IsBookAvailableToUser(Guid bookId, string userId)
         {
             var userBookTracks = await DataBase.Query(bookTracksTableName)
                 .Where(nameof(BookTrackRecord.UserId), userId)

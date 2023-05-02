@@ -11,7 +11,7 @@ namespace BookLibrary.Storage.Repositories
 {
     public class BooksRepository : Repository, IBooksRepository
     {
-        private const string authorsTableName = "Authors";
+        protected const string authorsTableName = "Authors";
         protected const string booksTableName = "Books";
         protected const string booksAuthorsTableName = "BooksAuthors";
 
@@ -58,7 +58,7 @@ namespace BookLibrary.Storage.Repositories
             await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookId).DeleteAsync();
         }
 
-        public async Task<Book?> Get(Guid bookId)
+        public virtual async Task<Book?> Get(Guid bookId)
         {
             var bookRecords = await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookId).GetAsync<BookRecord>();
             var bookRecord = bookRecords.FirstOrDefault();
@@ -83,7 +83,7 @@ namespace BookLibrary.Storage.Repositories
             return book;
         }
 
-        public async Task<IPagedCollection<Book>> GetAll(
+        public virtual async Task<IPagedCollection<Book>> GetAll(
             string? serachBookName = "", 
             string? serachAuthor = "", 
             DateTime? serachYear = null,
@@ -127,10 +127,10 @@ namespace BookLibrary.Storage.Repositories
 
             if (from > 0)
             {
-                query = query.Skip((int)from);
+                query = query.Offset((int)from);
             }
 
-            query = query.Take((int)(count ?? 0));
+            query = query.Limit((int)(count ?? 0));
             var bookRecords = await query.GetAsync<BookRecord>();
             var books = new List<Book>();
             foreach (var bookRecord in bookRecords)
@@ -177,9 +177,9 @@ namespace BookLibrary.Storage.Repositories
 
         }
 
-        #region Private
+        #region Protected
 
-        private async Task BindBookAndAuthors(Guid bookId, IEnumerable<string> authors, IDbTransaction? transaction = null)
+        protected virtual async Task BindBookAndAuthors(Guid bookId, IEnumerable<string> authors, IDbTransaction? transaction = null)
         {
             foreach (var authorName in authors)
             {
@@ -201,7 +201,7 @@ namespace BookLibrary.Storage.Repositories
                     .Query(booksAuthorsTableName)
                     .Where(nameof(BookAuthorRecord.AuthorId), bookAuthorRecord.AuthorId)
                     .Where(nameof(BookAuthorRecord.BookId), bookAuthorRecord.BookId)
-                    .GetAsync<AuthorRecord>(transaction);
+                    .GetAsync<BookAuthorRecord>(transaction);
                 if(persistedBookAuthor.FirstOrDefault() == default)
                 {
                     await DataBase.Query(booksAuthorsTableName).InsertAsync(bookAuthorRecord, transaction);
