@@ -10327,8 +10327,7 @@ body > footer {
 /* Not required for template or sticky footer method. */
 body > .container {
   padding: 15px 15px 15px !important;
-  opacity: 0.95 !important;
-  background-color: #000203 !important;
+  background: rgba(0, 2, 3, 0.75);
   border-radius: 0.3rem !important;
   margin-top: 70px !important;
   height: calc(97vh - 100px) !important;
@@ -10354,4 +10353,7 @@ a.login-link {
 @font-face {
   font-family: "Font Awesome 5 Free";
   src: url("../resources/font-awesome/fonts/fa-solid-900.ttf");
+}
+#books-grid-container {
+  background: rgb(255, 255, 255);
 }
