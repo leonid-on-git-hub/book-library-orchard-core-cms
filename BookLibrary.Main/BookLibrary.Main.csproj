@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Partial\" />
-    <Folder Include="wwwroot\Icons\" />
     <Folder Include="wwwroot\resources\" />
     <Folder Include="wwwroot\Styles\" />
   </ItemGroup>
