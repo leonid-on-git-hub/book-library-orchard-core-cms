@@ -16,6 +16,10 @@ namespace BookLibrary.Main
                 .SetUrl("~/BookLibrary.Main/classic/resources/BookLibrary.UI.Books-all.css");
 
             manifest
+                .DefineStyle("ExtJs-patch")
+                .SetUrl("~/BookLibrary.Main/Styles/ExtJs-patch.css");
+
+            manifest
                 .DefineScript("ExtJs")
                 .SetUrl("~/BookLibrary.Main/Scripts/ExtJs/ext-all.js");
 
