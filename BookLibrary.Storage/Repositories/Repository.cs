@@ -8,8 +8,8 @@ namespace BookLibrary.Storage.Repositories
 {
     public abstract class Repository
     {
-        public static string SqlServerConnectionString { get; set; } = string.Empty;
-        public static string SqLiteConnectionString { get; set; } = string.Empty;
+        public static string? SqlServerConnectionString { get; set; } = string.Empty;
+        public static string? SqLiteConnectionString { get; set; } = string.Empty;
 
         protected QueryFactory DataBase { get; }
         protected Repository(IDbConnection connection)
