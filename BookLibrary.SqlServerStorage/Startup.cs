@@ -35,7 +35,7 @@ namespace BookLibrary.SqlServerStorage
                 .ConfigureRunner(builder => builder
                     .AddSqlServer()
                     .WithGlobalConnectionString(Repository.SqlServerConnectionString)
-                    .ScanIn(typeof(InitialMigration).Assembly).For.Migrations())
+                    .ScanIn(typeof(Migration202306162210_Initial).Assembly).For.Migrations())
                 .Configure<RunnerOptions>(opt =>
                 {
                     opt.Tags = new[] { "SqlServerDatabase" };

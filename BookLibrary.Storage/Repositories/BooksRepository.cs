@@ -102,10 +102,7 @@ namespace BookLibrary.Storage.Repositories
                 var persistedBooksAuthors = await DataBase.Query(booksAuthorsTableName)
                     .WhereIn(nameof(BookAuthorRecord.AuthorId), persistedAuthors.Select(author => author.Id))
                     .GetAsync<BookAuthorRecord>();
-                if (persistedBooksAuthors.Any())
-                {
-                    query = query.WhereIn(nameof(BookRecord.Id), persistedBooksAuthors.Select(bookAuthor => bookAuthor.BookId));
-                }
+                query = query.WhereIn(nameof(BookRecord.Id), persistedBooksAuthors.Select(bookAuthor => bookAuthor.BookId));
             }
 
             if (serachYear.HasValue)

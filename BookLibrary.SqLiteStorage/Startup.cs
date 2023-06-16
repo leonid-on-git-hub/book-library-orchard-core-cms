@@ -36,7 +36,7 @@ namespace BookLibrary.SqLiteStorage
                 .ConfigureRunner(builder => builder
                     .AddSQLite()
                     .WithGlobalConnectionString(Repository.SqLiteConnectionString)
-                    .ScanIn(typeof(InitialMigration).Assembly).For.Migrations())
+                    .ScanIn(typeof(Migration202306162210_Initial).Assembly).For.Migrations())
                 .Configure<RunnerOptions>(opt =>
                 {
                     opt.Tags = new[] { "SqLiteDatabase" };
