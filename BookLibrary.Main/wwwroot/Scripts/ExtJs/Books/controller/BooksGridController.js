@@ -58,6 +58,9 @@ Ext.define('BookLibrary.UI.Books.controller.BooksGridController', {
         viewModel.set('serachAuthor', '');
         viewModel.set('serachYear', null);
         viewModel.set('searchOnlyAvailable', false);
+
+        this.getView().getStore().getProxy().setExtraParams({});
+        this.onSearch();
     },
 
     onSearch: function () {

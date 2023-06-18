@@ -110,7 +110,22 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
             labelWidth: 30,
             format: 'Y',
             maxValue: new Date(),
-            bind: '{serachYear}'
+            bind: '{serachYear}',
+            enableKeyEvents: true,
+            listeners: {
+                keypress: function (me, e, eOpts) {
+                    if (e.getKey() == e.ENTER) {
+                        var viewModelData = me.up('grid').getViewModel().getData();
+                        me.up('grid').getView().getStore().getProxy().setExtraParams({
+                            serachBookName: viewModelData.serachBookName,
+                            serachAuthor: viewModelData.serachAuthor,
+                            serachYear: me.getValue(),
+                            searchOnlyAvailable: viewModelData.searchOnlyAvailable
+                        });
+                        me.up('grid').getController().onSearch();
+                    }
+                }
+            }
         }, {
             xtype: 'checkboxfield',
             labelAlign: 'left',
