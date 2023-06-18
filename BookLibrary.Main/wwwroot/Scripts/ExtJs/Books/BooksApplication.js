@@ -3,6 +3,7 @@
 ]);
 
 Ext.onReady(function () {
+    Ext.tip.QuickTipManager.init();
     Ext.Ajax.on('beforerequest', function (conn, options, eOpts) {
         options.headers = {
             'RequestVerificationToken': Constants.getRequestVerificationToken()
