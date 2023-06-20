@@ -108,6 +108,7 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
             xtype: 'datefield',
             fieldLabel: 'Year',
             labelWidth: 30,
+            reference: 'serachYear',
             format: 'Y',
             maxValue: new Date(),
             bind: '{serachYear}',
