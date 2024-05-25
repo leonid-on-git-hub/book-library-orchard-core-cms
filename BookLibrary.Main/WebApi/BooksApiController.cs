@@ -51,13 +51,14 @@ namespace BookLibrary.Main.WebApi
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Book updatedBook)
+        public async Task<IActionResult> Update(Guid id, [FromBody] BookDto updatedBookDto)
         {
-            if (id != updatedBook.Id)
+            if (id != updatedBookDto.Id)
             {
                 return BadRequest();
             }
 
+            var updatedBook = updatedBookDto.ToDomain();
             await booksRepository.Update(updatedBook);
             return NoContent();
         }

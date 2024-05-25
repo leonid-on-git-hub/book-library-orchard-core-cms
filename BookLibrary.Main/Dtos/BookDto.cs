@@ -12,7 +12,14 @@ namespace BookLibrary.Main.Dtos
 
         public Book ToDomain()
         {
-            return new Book(Id ?? Guid.NewGuid(), Name, Authors, Year, Available);
+            if (Id is null)
+            {
+                return new Book(Name, Authors, Year, Available);
+            }
+            else
+            {
+                return Book.FromPersistence((Guid)Id, Name, Authors, Year, Available);
+            }
         }
     }
 }
