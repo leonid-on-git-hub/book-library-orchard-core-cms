@@ -8,10 +8,8 @@ using System.Data;
 
 namespace BookLibrary.SqLiteStorage.Repositories
 {
-    public class SqLiteBooksRepository : BooksRepository
+    public class SqLiteBooksRepository(IDbConnection connection) : BooksRepository(connection)
     {
-        public SqLiteBooksRepository(IDbConnection connection) : base(connection) { }
-
         public override async Task<Book?> Get(Guid bookId)
         {
             var bookRecords = await DataBase.Query(booksTableName).Where(nameof(BookRecord.Id), bookId).GetAsync<BookRecord>();
@@ -38,22 +36,22 @@ namespace BookLibrary.SqLiteStorage.Repositories
         }
 
         public override async Task<IPagedCollection<Book>> GetAll(
-            string? serachBookName = "",
-            string? serachAuthor = "",
-            DateTime? serachYear = null,
+            string? searchBookName = "",
+            string? searchAuthor = "",
+            DateTime? searchYear = null,
             bool searchOnlyAvailable = false,
             uint? from = 0,
             uint? count = 10)
         {
-            var query = DataBase.Query(booksTableName).OrderBy(new string[] { nameof(BookRecord.Name) });
-            if (!string.IsNullOrEmpty(serachBookName))
+            var query = DataBase.Query(booksTableName).OrderBy([nameof(BookRecord.Name)]);
+            if (!string.IsNullOrEmpty(searchBookName))
             {
-                query = query.WhereContains(nameof(BookRecord.Name), serachBookName, false);
+                query = query.WhereContains(nameof(BookRecord.Name), searchBookName, false);
             }
 
-            if (!string.IsNullOrEmpty(serachAuthor))
+            if (!string.IsNullOrEmpty(searchAuthor))
             {
-                var persistedAuthors = await DataBase.Query(authorsTableName).WhereContains(nameof(AuthorRecord.Name), serachAuthor, false).GetAsync<AuthorRecord>();
+                var persistedAuthors = await DataBase.Query(authorsTableName).WhereContains(nameof(AuthorRecord.Name), searchAuthor, false).GetAsync<AuthorRecord>();
                 var persistedBooksAuthors = await DataBase.Query(booksAuthorsTableName)
                     .WhereIn(nameof(BookAuthorRecord.AuthorId), persistedAuthors.Select(author => author.Id))
                     .GetAsync<BookAuthorRecord>();
@@ -63,9 +61,9 @@ namespace BookLibrary.SqLiteStorage.Repositories
                 }
             }
 
-            if (serachYear.HasValue)
+            if (searchYear.HasValue)
             {
-                query = query.WhereDatePart("year", nameof(BookRecord.Year), serachYear?.Year);
+                query = query.WhereDatePart("year", nameof(BookRecord.Year), searchYear?.Year);
             }
 
             if (searchOnlyAvailable)
@@ -76,7 +74,7 @@ namespace BookLibrary.SqLiteStorage.Repositories
             var totalCount = await query.Clone().CountAsync<long>();
             if (totalCount == 0)
             {
-                return new PagedCollection<Book>(Enumerable.Empty<Book>(), totalCount);
+                return new PagedCollection<Book>([], totalCount);
             }
 
             if (from > 0)

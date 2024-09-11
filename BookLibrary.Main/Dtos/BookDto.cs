@@ -6,7 +6,7 @@ namespace BookLibrary.Main.Dtos
     {
         public Guid? Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public IEnumerable<string> Authors { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<string> Authors { get; set; } = [];
         public DateTime? Year { get; set; }
         public bool Available { get; set; }
 

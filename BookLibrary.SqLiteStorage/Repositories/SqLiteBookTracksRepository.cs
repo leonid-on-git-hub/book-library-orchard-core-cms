@@ -6,20 +6,18 @@ using System.Data;
 
 namespace BookLibrary.SqLiteStorage.Repositories
 {
-    public class SqLiteBookTracksRepository : BookTracksRepository
+    public class SqLiteBookTracksRepository(IDbConnection connection) : BookTracksRepository(connection)
     {
-        public SqLiteBookTracksRepository(IDbConnection connection) : base(connection) { }
-
         public override async Task<IEnumerable<BookTrack>> GetAll(Guid bookId, uint? count = 0)
         {
-            var query = DataBase.Query(bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId).OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) });
+            var query = DataBase.Query(bookTracksTableName).Where(nameof(BookTrackRecord.BookId), bookId).OrderByDesc([nameof(BookTrackRecord.ActionDate)]);
             if (count > 0)
             {
                 query.Take((int)count);
             }
 
-            var bookTracksRecors = await query.GetAsync<BookTrackRecord>();
-            var bookTracks = bookTracksRecors.Select(bookTrackRecord => bookTrackRecord.ToDomain());
+            var bookTracksRecords = await query.GetAsync<BookTrackRecord>();
+            var bookTracks = bookTracksRecords.Select(bookTrackRecord => bookTrackRecord.ToDomain());
             return bookTracks;
         }
 
@@ -29,14 +27,14 @@ namespace BookLibrary.SqLiteStorage.Repositories
                 .Where(nameof(BookTrackRecord.UserId), userId)
                 .Where(nameof(BookTrackRecord.BookId), bookId)
                 .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken.ToString()).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put.ToString()))
-                .OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) })
+                .OrderByDesc([nameof(BookTrackRecord.ActionDate)])
                 .Take(1)
                 .GetAsync<BookTrackRecord>();
             var userBookTrack = userBookTracks.FirstOrDefault();
             var allBookTracks = await DataBase.Query(bookTracksTableName)
                 .Where(nameof(BookTrackRecord.BookId), bookId)
                 .Where(query => query.Where(nameof(BookTrackRecord.Action), BookAction.Taken.ToString()).OrWhere(nameof(BookTrackRecord.Action), BookAction.Put.ToString()))
-                .OrderByDesc(new string[] { nameof(BookTrackRecord.ActionDate) })
+                .OrderByDesc([nameof(BookTrackRecord.ActionDate)])
                 .Take(1)
                 .GetAsync<BookTrackRecord>();
             var bookTrack = allBookTracks.FirstOrDefault();
