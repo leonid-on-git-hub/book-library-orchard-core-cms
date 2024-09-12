@@ -27,14 +27,14 @@ namespace BookLibrary.Main.WebApi
 
         [HttpGet]
         public async Task<ActionResult<IPagedCollection<Book>>> GetAll(
-            string? serachBookName = "",
-            string? serachAuthor = "",
-            DateTime? serachYear = null,
+            string? searchBookName = "",
+            string? searchAuthor = "",
+            DateTime? searchYear = null,
             bool searchOnlyAvailable = false,
             uint? from = 0,
             uint? count = 10)
         {
-            var booksCollection = await booksRepository.GetAll(serachBookName, serachAuthor, serachYear, searchOnlyAvailable, from, count);
+            var booksCollection = await booksRepository.GetAll(searchBookName, searchAuthor, searchYear, searchOnlyAvailable, from, count);
             return Ok(booksCollection);
         }
 

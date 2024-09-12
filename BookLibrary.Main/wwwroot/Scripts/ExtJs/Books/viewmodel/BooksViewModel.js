@@ -15,9 +15,9 @@ Ext.define('BookLibrary.UI.Books.viewmodel.BooksViewModel', {
                     'RequestVerificationToken': Constants.getRequestVerificationToken()
                 },
                 extraParams: {
-                    serachBookName: '{serachBookName}',
-                    serachAuthor: '{serachAuthor}',
-                    serachYear: '{serachYear}',
+                    searchBookName: '{searchBookName}',
+                    searchAuthor: '{searchAuthor}',
+                    searchYear: '{searchYear}',
                     searchOnlyAvailable: '{searchOnlyAvailable}'
                 },
                 reader: {
@@ -29,9 +29,9 @@ Ext.define('BookLibrary.UI.Books.viewmodel.BooksViewModel', {
         }
     },
     data: {
-        serachBookName: '',
-        serachAuthor: '',
-        serachYear: null,
+        searchBookName: '',
+        searchAuthor: '',
+        searchYear: null,
         searchOnlyAvailable: false,
         booksGridSelection: null
     }

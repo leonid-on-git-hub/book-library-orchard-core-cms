@@ -54,11 +54,11 @@ Ext.define('BookLibrary.UI.Books.controller.BooksGridController', {
 
     onClearSearch: function () {
         var viewModel = this.getViewModel();
-        viewModel.set('serachBookName', '');
-        viewModel.set('serachAuthor', '');
-        viewModel.set('serachYear', null);
+        viewModel.set('searchBookName', '');
+        viewModel.set('searchAuthor', '');
+        viewModel.set('searchYear', null);
         viewModel.set('searchOnlyAvailable', false);
-        this.getView().lookupReference('serachYear').setValue('');
+        this.getView().lookupReference('searchYear').setValue('');
         this.getView().getStore().getProxy().setExtraParams({});
         this.onSearch();
     },

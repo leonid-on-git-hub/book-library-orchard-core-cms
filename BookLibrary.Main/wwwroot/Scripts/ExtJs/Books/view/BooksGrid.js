@@ -83,7 +83,7 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
             fieldLabel: 'Name',
             labelWidth: 40,
             enableKeyEvents: true,
-            bind: '{serachBookName}',
+            bind: '{searchBookName}',
             listeners: {
                 keypress: function (me, e, eOpts) {
                     if (e.getKey() == e.ENTER) {
@@ -96,7 +96,7 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
             fieldLabel: 'Author',
             labelWidth: 44,
             enableKeyEvents: true,
-            bind: '{serachAuthor}',
+            bind: '{searchAuthor}',
             listeners: {
                 keypress: function (me, e, eOpts) {
                     if (e.getKey() == e.ENTER) {
@@ -108,19 +108,19 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
             xtype: 'datefield',
             fieldLabel: 'Year',
             labelWidth: 30,
-            reference: 'serachYear',
+            reference: 'searchYear',
             format: 'Y',
             maxValue: new Date(),
-            bind: '{serachYear}',
+            bind: '{searchYear}',
             enableKeyEvents: true,
             listeners: {
                 keypress: function (me, e, eOpts) {
                     if (e.getKey() == e.ENTER) {
                         var viewModelData = me.up('grid').getViewModel().getData();
                         me.up('grid').getView().getStore().getProxy().setExtraParams({
-                            serachBookName: viewModelData.serachBookName,
-                            serachAuthor: viewModelData.serachAuthor,
-                            serachYear: me.getValue(),
+                            searchBookName: viewModelData.searchBookName,
+                            searchAuthor: viewModelData.searchAuthor,
+                            searchYear: me.getValue(),
                             searchOnlyAvailable: viewModelData.searchOnlyAvailable
                         });
                         me.up('grid').getController().onSearch();
