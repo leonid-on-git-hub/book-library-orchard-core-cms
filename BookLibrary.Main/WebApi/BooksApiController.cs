@@ -8,14 +8,9 @@ namespace BookLibrary.Main.WebApi
 {
     [Route("api/books")]
     [ApiController]
-    public class BooksApiController : ControllerBase
+    public class BooksApiController(IBooksRepository booksRepository) : ControllerBase
     {
-        private readonly IBooksRepository booksRepository;
-
-        public BooksApiController(IBooksRepository booksRepository)
-        {
-            this.booksRepository = booksRepository;
-        }
+        private readonly IBooksRepository booksRepository = booksRepository;
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BookDto bookDto)

@@ -14,7 +14,7 @@
 @await RenderSectionAsync("NavbarTop", required: false)
 
 <ul class="navbar-nav ms-auto">
-    @if (User.Identity.IsAuthenticated)
+    @if (User?.Identity?.IsAuthenticated ?? false)
     {
         <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle login-menu" data-bs-toggle="dropdown"><i class="fa fa-user fa-fw" aria-hidden="true"></i> @User.Identity.Name<b class="caret"></b></a>
