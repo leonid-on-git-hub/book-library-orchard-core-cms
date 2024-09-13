@@ -10,16 +10,10 @@ namespace BookLibrary.Main.WebApi
 {
     [Route("api/booktracks")]
     [ApiController]
-    public class BookTracksApiController : ControllerBase
+    public class BookTracksApiController(IBookTracksRepository bookTracksRepository, UserManager<IUser> userManager) : ControllerBase
     {
-        private readonly IBookTracksRepository bookTracksRepository;
-        private readonly UserManager<IUser> userManager;
-
-        public BookTracksApiController(IBookTracksRepository bookTracksRepository, UserManager<IUser> userManager)
-        {
-            this.bookTracksRepository = bookTracksRepository;
-            this.userManager = userManager;
-        }
+        private readonly IBookTracksRepository bookTracksRepository = bookTracksRepository;
+        private readonly UserManager<IUser> userManager = userManager;
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BookTrackDto bookTrackDto)

@@ -39,7 +39,7 @@ namespace BookLibrary.SqLiteStorage
                     .ScanIn(typeof(Migration202306162210_Initial).Assembly).For.Migrations())
                 .Configure<RunnerOptions>(opt =>
                 {
-                    opt.Tags = new[] { "SqLiteDatabase" };
+                    opt.Tags = ["SqLiteDatabase"];
                 })
                 .BuildServiceProvider(false);
 

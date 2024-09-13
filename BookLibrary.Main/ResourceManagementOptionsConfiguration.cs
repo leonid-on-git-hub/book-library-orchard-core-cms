@@ -5,7 +5,7 @@ namespace BookLibrary.Main
 {
     public class ResourceManagementOptionsConfiguration : IConfigureOptions<ResourceManagementOptions>
     {
-        private static ResourceManifest manifest;
+        private static readonly ResourceManifest manifest;
 
         static ResourceManagementOptionsConfiguration()
         {

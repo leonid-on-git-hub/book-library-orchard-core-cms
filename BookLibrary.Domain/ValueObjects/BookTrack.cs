@@ -1,19 +1,11 @@
 ﻿namespace BookLibrary.Domain.ValueObjects
 {
-    public class BookTrack
+    public class BookTrack(Guid bookId, string userId, DateTime actionDate, BookAction action)
     {
-        public Guid BookId { get; }
-        public string UserId { get; }
-        public DateTime ActionDate { get; }
-        public BookAction Action { get; }
-
-        public BookTrack(Guid bookId, string userId, DateTime actionDate, BookAction action)
-        {
-            BookId = bookId;
-            UserId = userId;
-            ActionDate = actionDate;
-            Action = action;
-        }
+        public Guid BookId { get; } = bookId;
+        public string UserId { get; } = userId;
+        public DateTime ActionDate { get; } = actionDate;
+        public BookAction Action { get; } = action;
 
         public static BookTrack FromPersistence(Guid bookId, string userId, DateTime actionDate, BookAction action)
         {

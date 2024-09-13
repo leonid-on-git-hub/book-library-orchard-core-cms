@@ -38,7 +38,7 @@ namespace BookLibrary.SqlServerStorage
                     .ScanIn(typeof(Migration202306162210_Initial).Assembly).For.Migrations())
                 .Configure<RunnerOptions>(opt =>
                 {
-                    opt.Tags = new[] { "SqlServerDatabase" };
+                    opt.Tags = ["SqlServerDatabase"];
                 })
                 .BuildServiceProvider(false);
 
