@@ -8,23 +8,27 @@ namespace BookLibrary.Storage.Repositories
 {
     public abstract class Repository
     {
-        public static string? SqlServerConnectionString { get; set; } = string.Empty;
-        public static string? SqLiteConnectionString { get; set; } = string.Empty;
+        public static string? SqlServerConnectionString { get; set; }
+        public static string? SqLiteConnectionString { get; set; }
 
         protected QueryFactory DataBase { get; }
         protected Repository(IDbConnection connection)
         {
-            Compiler? compiler = null;
-            if (connection is SqliteConnection)
+            Compiler compiler = connection switch
             {
-                connection.ConnectionString = SqLiteConnectionString;
-                compiler = new SqliteCompiler();
-            }
-
-            if (connection is SqlConnection)
+                SqliteConnection => new SqliteCompiler(),
+                SqlConnection => new SqlServerCompiler(),
+                _ => throw new ArgumentException("Unsupported connection type")
+            };
+            connection.ConnectionString = connection switch
             {
-                connection.ConnectionString = SqlServerConnectionString;
-                compiler = new SqlServerCompiler();
+                SqliteConnection => SqLiteConnectionString,
+                SqlConnection => SqlServerConnectionString,
+                _ => connection.ConnectionString
+            };
+            if (string.IsNullOrWhiteSpace(connection.ConnectionString))
+            {
+                throw new InvalidOperationException("Connection string is null or white space");
             }
 
             DataBase = new QueryFactory(connection, compiler);

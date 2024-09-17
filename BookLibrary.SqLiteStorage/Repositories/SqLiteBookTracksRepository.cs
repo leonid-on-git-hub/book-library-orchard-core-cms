@@ -1,4 +1,5 @@
-﻿using BookLibrary.Domain.ValueObjects;
+﻿using BookLibrary.Domain.Entities;
+using BookLibrary.Domain.ValueObjects;
 using BookLibrary.SqLiteStorage.Records;
 using BookLibrary.Storage.Repositories;
 using SqlKata.Execution;

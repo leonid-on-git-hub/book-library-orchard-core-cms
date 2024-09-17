@@ -1,4 +1,5 @@
-﻿using BookLibrary.Domain.ValueObjects;
+﻿using BookLibrary.Domain.Entities;
+using BookLibrary.Domain.ValueObjects;
 
 namespace BookLibrary.SqLiteStorage.Records
 {

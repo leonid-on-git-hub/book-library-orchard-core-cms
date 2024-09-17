@@ -1,4 +1,4 @@
-﻿using BookLibrary.Domain.ValueObjects;
+﻿using BookLibrary.Domain.Entities;
 
 namespace BookLibrary.Domain.Repositories
 {

@@ -1,4 +1,6 @@
-﻿namespace BookLibrary.Domain.ValueObjects
+﻿using BookLibrary.Domain.ValueObjects;
+
+namespace BookLibrary.Domain.Entities
 {
     public class BookTrack(Guid bookId, string userId, DateTime actionDate, BookAction action)
     {
