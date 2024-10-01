@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.12" />
-    <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="2.0.0" />
-    <PackageReference Include="OrchardCore.Logging.NLog" Version="2.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.14" />
+    <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="2.0.2" />
+    <PackageReference Include="OrchardCore.Logging.NLog" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
