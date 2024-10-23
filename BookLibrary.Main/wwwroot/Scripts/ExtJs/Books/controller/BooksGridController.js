@@ -87,61 +87,63 @@ Ext.define('BookLibrary.UI.Books.controller.BooksGridController', {
     openBookWindowAndLoadBook: function (windowTitle, readOnly, isNew, rowIndex) {
         var me = this;
         var grid = me.getView();
-        var mask = me.createMask(me);
-        mask.show();
         var selectedRecord = isNaN(rowIndex) ? grid.getSelectionModel().getSelection()[0] : grid.getStore().getAt(rowIndex);
-        var iconCls = readOnly ? 'fa fa-file-alt' : 'fas fa-file-signature';
-        BookService.getBook(selectedRecord.id).then(function (bookData) {
-            bookData.year = new Date(bookData.year);
-            var authors = [];
-            bookData.authors.forEach(author => {
-                authors.push({ name: author });
-            });
-            UserService.getUserName().then(function(userName){
-                BookTracksService.isBookAvailableToUser(userName, bookData.id).then(function(isBookAvailableToUser){
-                    BookTracksService.getBookTracks(bookData.id, 10).then(function(bookTracks){
-                        var window = Ext.create('bookwindow', {
-                            iconCls: iconCls,
-                            title: windowTitle,
-                            viewModel: Ext.create('viewmodel.bookviewmodel', {
-                                stores: {
-                                    bookAuthorsStore: {
-                                        fields: ['name'],
-                                        data: authors
+        if (selectedRecord) {
+            var mask = me.createMask(me);
+            mask.show();
+            var iconCls = readOnly ? 'fa fa-file-alt' : 'fas fa-file-signature';
+            BookService.getBook(selectedRecord.id).then(function (bookData) {
+                bookData.year = new Date(bookData.year);
+                var authors = [];
+                bookData.authors.forEach(author => {
+                    authors.push({ name: author });
+                });
+                UserService.getUserName().then(function (userName) {
+                    BookTracksService.isBookAvailableToUser(userName, bookData.id).then(function (isBookAvailableToUser) {
+                        BookTracksService.getBookTracks(bookData.id, 10).then(function (bookTracks) {
+                            var window = Ext.create('bookwindow', {
+                                iconCls: iconCls,
+                                title: windowTitle,
+                                viewModel: Ext.create('viewmodel.bookviewmodel', {
+                                    stores: {
+                                        bookAuthorsStore: {
+                                            fields: ['name'],
+                                            data: authors
+                                        }
+                                    },
+                                    data: {
+                                        book: bookData,
+                                        bookTracks: bookTracks,
+                                        readOnly: readOnly,
+                                        bookAvailableReadOnly: !isBookAvailableToUser,
+                                        isNew: isNew,
+                                        authorsSelection: null
                                     }
-                                },
-                                data: {
-                                    book: bookData,
-                                    bookTracks: bookTracks,
-                                    readOnly: readOnly,
-                                    bookAvailableReadOnly: !isBookAvailableToUser,
-                                    isNew: isNew,
-                                    authorsSelection: null
-                                }
-                            }),
-                            listeners: {
-                                close: function () {
-                                    if (!readOnly) {
-                                        me.getView().getStore().load();
+                                }),
+                                listeners: {
+                                    close: function () {
+                                        if (!readOnly) {
+                                            me.getView().getStore().load();
+                                        }
                                     }
                                 }
-                            }
+                            });
+                            mask.destroy();
+                            window.show();
+                        }, function (errorText) {
+                            Ext.Msg.alert('Error', errorText);
                         });
-                        mask.destroy();
-                        window.show();
                     }, function (errorText) {
                         Ext.Msg.alert('Error', errorText);
-                    });
+                    })
                 }, function (errorText) {
                     Ext.Msg.alert('Error', errorText);
                 })
-            }, function (errorText) {
-                Ext.Msg.alert('Error', errorText);
-            })
-        }, function (error) {
-            grid.getStore().load();
-            mask.destroy();
-        });
+            }, function (error) {
+                grid.getStore().load();
+                mask.destroy();
+            });
+        }
     },
 
     createMask: function (controller) {

@@ -50,13 +50,12 @@ Ext.define('BookLibrary.UI.Books.view.BooksGrid', {
         }
     }, {
         text: 'Available',
+        xtype: 'checkcolumn',
         flex: 1,
         dataIndex: 'available',
-        renderer: function (value) {
-            if (value) {
-                return 'Available';
-            } else {
-                return 'Not available';
+        listeners: {
+            beforecheckchange: function (grid, record, rowIndex, checked) {
+                return false;
             }
         }
     }, {
