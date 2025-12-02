@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -16,14 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OrchardCore.Admin.Abstractions" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.Menu" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.Theme.Targets" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.ContentManagement" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.DisplayManagement" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.ResourceManagement" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.Users" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.Users.Abstractions" Version="2.2.0" />
+    <PackageReference Include="OrchardCore.Admin.Abstractions" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.Menu" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.ResourceManagement" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.Users" Version="2.2.1" />
+    <PackageReference Include="OrchardCore.Users.Abstractions" Version="2.2.1" />
   </ItemGroup>
 
 </Project>
