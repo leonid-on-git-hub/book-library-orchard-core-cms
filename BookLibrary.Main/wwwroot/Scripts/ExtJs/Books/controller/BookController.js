@@ -58,19 +58,21 @@ Ext.define('BookLibrary.UI.Books.controller.BookController', {
         }
     },
 
-    createBookModel: function (viewController) {
-        var bookData = viewController.getViewModel().get('book');
-        bookData.authors = [];
-        viewController.getViewModel().getStore('bookAuthorsStore').getRange().forEach(author => {
-            var authorName = author.getData().name;
-            if (!!authorName) {
-                bookData.authors.push(authorName);
-            }
-        });
-        return Ext.create('model.book', bookData);
-    },
+    privates: {
+        createBookModel: function (viewController) {
+            var bookData = viewController.getViewModel().get('book');
+            bookData.authors = [];
+            viewController.getViewModel().getStore('bookAuthorsStore').getRange().forEach(author => {
+                var authorName = author.getData().name;
+                if (!!authorName) {
+                    bookData.authors.push(authorName);
+                }
+            });
+            return Ext.create('model.book', bookData);
+        },
 
-    isFormValid: function () {
-        return this.getView().down('form').getForm().isValid();
+        isFormValid: function () {
+            return this.getView().down('form').getForm().isValid();
+        }
     }
 });

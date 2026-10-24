@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Partial\" />
     <Folder Include="wwwroot\resources\" />
   </ItemGroup>
 
