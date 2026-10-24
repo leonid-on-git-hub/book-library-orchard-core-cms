@@ -53,7 +53,7 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
                 format: Constants.DATE_FORAMAT,
                 msgTarget: 'under',
                 maxValue: new Date(),
-                flex: 8,
+                width: 250,
                 bind: {
                     value: '{book.year}',
                     readOnly: '{readOnly}'
@@ -68,7 +68,6 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
                 labelAlign: 'left',
                 labelWidth: 60,
                 padding: '0 0 0 30',
-                flex: 2,
                 bind: {
                     value: '{book.available}',
                     readOnly: '{readOnly || bookAvailableReadOnly}'
@@ -78,9 +77,6 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
                         me.originalValue = me.up('window').getViewModel().get('book.available');
                     }
                 }
-            }, {
-                xtype: 'container',
-                flex: 10
             }]
         }, {
             xtype: 'container',
@@ -91,38 +87,22 @@ Ext.define('BookLibrary.UI.Books.view.window.BookWindow', {
                 align: 'stretch'
             },
             items: [{
-                xtype: 'container',
+                xtype: 'bookauthorsgrid',
                 flex: 1,
-                layout: {
-                    type: 'vbox',
-                    align: 'stretch'
-                },
-                items: [{
-                    xtype: 'bookauthorsgrid',
-                    flex: 1,
-                    margin: '20 10 0 0',
-                    bind: {
-                        store: '{bookAuthorsStore}',
-                        selection: '{authorsSelection}',
-                        hidden: '{readOnly && book.authors.length == 0}'
-                    }
-                }]
+                margin: '20 0 0 0',
+                bind: {
+                    store: '{bookAuthorsStore}',
+                    selection: '{authorsSelection}',
+                    hidden: '{readOnly && book.authors.length == 0}'
+                }
             }, {
-                xtype: 'container',
+                xtype: 'booktracksgrid',
+                margin: '20 0 0 10',
                 flex: 1,
-                layout: {
-                    type: 'vbox',
-                    align: 'stretch'
-                },
-                items: [{
-                    xtype: 'booktracksgrid',
-                    margin: '20 0 0 10',
-                    flex: 1,
-                    bind: {
-                        store: '{bookTracks}',
-                        hidden: '{isNew}'
-                    }
-                }]
+                bind: {
+                    store: '{bookTracks}',
+                    hidden: '{isNew}'
+                }
             }]
         },]
     }, {

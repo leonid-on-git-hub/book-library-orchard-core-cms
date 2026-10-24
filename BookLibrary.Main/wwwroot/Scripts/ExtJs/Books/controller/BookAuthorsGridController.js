@@ -42,12 +42,14 @@ Ext.define('BookLibrary.UI.Books.controller.BookAuthorsGridController', {
         return false;
     },
 
-    getContextMenu: function () {
-        return this.contextMenu || (this.contextMenu = this.view.add({
-            xtype: 'menu',
-            items: [
-                '@delete'
-            ]
-        }));
+    privates: {
+        getContextMenu: function () {
+            return this.contextMenu || (this.contextMenu = this.view.add({
+                xtype: 'menu',
+                items: [
+                    '@delete'
+                ]
+            }));
+        }
     }
 });

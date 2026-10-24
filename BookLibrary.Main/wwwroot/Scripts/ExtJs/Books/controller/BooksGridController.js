@@ -9,6 +9,7 @@ Ext.define('BookLibrary.UI.Books.controller.BooksGridController', {
         var window = Ext.create('bookwindow', {
             title: 'Create book',
             iconCls: 'fas fa-file-signature',
+            width: 600,
             listeners: {
                 close: function () {
                     me.getView().getStore().load();
@@ -20,11 +21,11 @@ Ext.define('BookLibrary.UI.Books.controller.BooksGridController', {
     },
 
     onView: function (eventGrid, rowIndex, colIndex) {
-        this.openBookWindowAndLoadBook('View book', true, false, rowIndex);
+        this.openBookWindow('View book', true, false, rowIndex);
     },
 
     onEdit: function (eventGrid, rowIndex, colIndex) {
-        this.openBookWindowAndLoadBook('Edit book', false, false, rowIndex);
+        this.openBookWindow('Edit book', false, false, rowIndex);
     },
 
     onDelete: function (eventGrid, rowIndex, colIndex) {
@@ -73,83 +74,85 @@ Ext.define('BookLibrary.UI.Books.controller.BooksGridController', {
         return false;
     },
 
-    getContextMenu: function () {
-        return this.contextMenu || (this.contextMenu = this.view.add({
-            xtype: 'menu',
-            items: [
-                '@view',
-                '@edit',
-                '@delete'
-            ]
-        }));
-    },
+    privates: {
+        getContextMenu: function () {
+            return this.contextMenu || (this.contextMenu = this.view.add({
+                xtype: 'menu',
+                items: [
+                    '@view',
+                    '@edit',
+                    '@delete'
+                ]
+            }));
+        },
 
-    openBookWindowAndLoadBook: function (windowTitle, readOnly, isNew, rowIndex) {
-        var me = this;
-        var grid = me.getView();
-        var selectedRecord = isNaN(rowIndex) ? grid.getSelectionModel().getSelection()[0] : grid.getStore().getAt(rowIndex);
-        if (selectedRecord) {
-            var mask = me.createMask(me);
-            mask.show();
-            var iconCls = readOnly ? 'fa fa-file-alt' : 'fas fa-file-signature';
-            BookService.getBook(selectedRecord.id).then(function (bookData) {
-                bookData.year = new Date(bookData.year);
-                var authors = [];
-                bookData.authors.forEach(author => {
-                    authors.push({ name: author });
-                });
-                UserService.getUserName().then(function (userName) {
-                    BookTracksService.isBookAvailableToUser(userName, bookData.id).then(function (isBookAvailableToUser) {
-                        BookTracksService.getBookTracks(bookData.id, 10).then(function (bookTracks) {
-                            var window = Ext.create('bookwindow', {
-                                iconCls: iconCls,
-                                title: windowTitle,
-                                viewModel: Ext.create('viewmodel.bookviewmodel', {
-                                    stores: {
-                                        bookAuthorsStore: {
-                                            fields: ['name'],
-                                            data: authors
+        openBookWindow: function (windowTitle, readOnly, isNew, rowIndex) {
+            var me = this;
+            var grid = me.getView();
+            var selectedRecord = isNaN(rowIndex) ? grid.getSelectionModel().getSelection()[0] : grid.getStore().getAt(rowIndex);
+            if (selectedRecord) {
+                var mask = me.createMask(me);
+                mask.show();
+                var iconCls = readOnly ? 'fa fa-file-alt' : 'fas fa-file-signature';
+                BookService.getBook(selectedRecord.id).then(function (bookData) {
+                    bookData.year = new Date(bookData.year);
+                    var authors = [];
+                    bookData.authors.forEach(author => {
+                        authors.push({ name: author });
+                    });
+                    UserService.getUserName().then(function (userName) {
+                        BookTracksService.isBookAvailableToUser(userName, bookData.id).then(function (isBookAvailableToUser) {
+                            BookTracksService.getBookTracks(bookData.id, 10).then(function (bookTracks) {
+                                var window = Ext.create('bookwindow', {
+                                    iconCls: iconCls,
+                                    title: windowTitle,
+                                    viewModel: Ext.create('viewmodel.bookviewmodel', {
+                                        stores: {
+                                            bookAuthorsStore: {
+                                                fields: ['name'],
+                                                data: authors
+                                            }
+                                        },
+                                        data: {
+                                            book: bookData,
+                                            bookTracks: bookTracks,
+                                            readOnly: readOnly,
+                                            bookAvailableReadOnly: !isBookAvailableToUser,
+                                            isNew: isNew,
+                                            authorsSelection: null
                                         }
-                                    },
-                                    data: {
-                                        book: bookData,
-                                        bookTracks: bookTracks,
-                                        readOnly: readOnly,
-                                        bookAvailableReadOnly: !isBookAvailableToUser,
-                                        isNew: isNew,
-                                        authorsSelection: null
-                                    }
-                                }),
-                                listeners: {
-                                    close: function () {
-                                        if (!readOnly) {
-                                            me.getView().getStore().load();
+                                    }),
+                                    listeners: {
+                                        close: function () {
+                                            if (!readOnly) {
+                                                me.getView().getStore().load();
+                                            }
                                         }
                                     }
-                                }
+                                });
+                                mask.destroy();
+                                window.show();
+                            }, function (errorText) {
+                                Ext.Msg.alert('Error', errorText);
                             });
-                            mask.destroy();
-                            window.show();
                         }, function (errorText) {
                             Ext.Msg.alert('Error', errorText);
-                        });
+                        })
                     }, function (errorText) {
                         Ext.Msg.alert('Error', errorText);
                     })
-                }, function (errorText) {
-                    Ext.Msg.alert('Error', errorText);
-                })
-            }, function (error) {
-                grid.getStore().load();
-                mask.destroy();
+                }, function (error) {
+                    grid.getStore().load();
+                    mask.destroy();
+                });
+            }
+        },
+
+        createMask: function (controller) {
+            return new Ext.LoadMask({
+                msg: 'Please, wait...',
+                target: controller.getView()
             });
         }
-    },
-
-    createMask: function (controller) {
-        return new Ext.LoadMask({
-            msg: 'Please, wait...',
-            target: controller.getView()
-        });
-    }
+    } 
 });
